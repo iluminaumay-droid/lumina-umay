@@ -1,825 +1,514 @@
 /**
- * LUMINA UMAY — CLIENT APPLICATION CONTROLLER
+ * LUMINA UMAY — CLIENT CONTROLLER
  * Fullstack Tarot Booking, Concurrency Soft-Locking & Mercado Pago State Engine
  */
 
-(function () {
-  'use strict';
+// --- Tier Metadata & Pricing Definitions ---
+const TIER_METADATA = {
+  '1_carta': {
+    name: 'Lectura de 1 Carta',
+    price: 150,
+    isCall: false,
+    turnaround: '24 horas',
+    description: 'Respuesta puntual a una pregunta concreta de Sí o No.'
+  },
+  '3_cartas': {
+    name: 'Lectura de 3 Cartas',
+    price: 350,
+    isCall: false,
+    turnaround: '24 horas',
+    description: 'Panorama general: pasado, presente y consejo del oráculo.'
+  },
+  '5_cartas': {
+    name: 'Lectura de 5 Cartas',
+    price: 500,
+    isCall: false,
+    turnaround: '24 horas',
+    description: 'Tirada profunda: bloqueos, influencias y mejor desenlace.'
+  },
+  'llamada': {
+    name: 'Sesión por Llamada',
+    price: 450,
+    isCall: true,
+    turnaround: 'Sesión en vivo (45 min)',
+    description: '45 minutos en vivo 1 a 1 con Claudia.'
+  }
+};
 
-  // --- Tier Definitions & Pricing ---
-  const TIER_METADATA = {
-    '1_carta': {
-      name: 'Lectura de 1 Carta',
-      price: 150,
-      isCall: false,
-      questionLabel: 'Tu Pregunta o Consulta (Sí o No) *',
-      questionPlaceholder: 'Ej. ¿Conseguiré el empleo al que apliqué este mes?',
-      turnaroundText: '✨ Tu lectura personalizada será grabada y enviada a tu correo dentro de las próximas 24 horas hábiles.',
-      btnText: 'Continuar al Pago Seguro ($150 MXN) 🔒'
-    },
-    '3_cartas': {
-      name: 'Lectura de 3 Cartas',
-      price: 350,
-      isCall: false,
-      questionLabel: 'Tu Pregunta o Situación General *',
-      questionPlaceholder: 'Explica la situación, antecedentes o duda general que deseas consultar...',
-      turnaroundText: '✨ Tu lectura personalizada será grabada y enviada a tu correo dentro de las próximas 24 horas hábiles.',
-      btnText: 'Continuar al Pago Seguro ($350 MXN) 🔒'
-    },
-    '5_cartas': {
-      name: 'Lectura de 5 Cartas',
-      price: 500,
-      isCall: false,
-      questionLabel: 'Tu Situación o Consulta Detallada *',
-      questionPlaceholder: 'Explica a detalle tu situación, contexto y los aspectos que deseas profundizar...',
-      turnaroundText: '✨ Tu lectura personalizada será grabada y enviada a tu correo dentro de las próximas 24 horas hábiles.',
-      btnText: 'Continuar al Pago Seguro ($500 MXN) 🔒'
-    },
-    'llamada': {
-      name: 'Sesión en Vivo por Llamada',
-      price: 450,
-      isCall: true,
-      questionLabel: 'Tema o Enfoque Principal para tu Llamada *',
-      questionPlaceholder: 'Describe brevemente los temas o inquietudes que deseas abordar en vivo con Claudia...',
-      turnaroundText: '📞 Sesión 1 a 1 de 45 minutos en vivo reservada en el horario seleccionado.',
-      btnText: 'Continuar al Pago Seguro ($450 MXN) 🔒'
-    }
-  };
+const VALID_CATEGORIES = ['Amor', 'Trabajo/Dinero', 'Familia', 'Otro'];
 
-  // --- Runtime Application State ---
-  const state = {
-    selectedTier: '1_carta',
-    selectedSlotId: null,
-    lockToken: null,
-    lockExpiresAt: null,
-    lockTimerInterval: null,
-    slots: [],
-    groupedSlots: {},
-    selectedDate: null,
-    isSubmitting: false,
-    pollInterval: null
-  };
+window.TIER_METADATA = TIER_METADATA;
+window.VALID_CATEGORIES = VALID_CATEGORIES;
 
-  // --- DOM Elements Cache ---
-  const DOM = {
-    form: document.getElementById('booking-form'),
-    tierCards: document.querySelectorAll('.tier-card'),
-    tierRadios: document.querySelectorAll('input[name="tier_id"]'),
-    
-    // Dynamic Form Groups
-    fieldInvolvedNames: document.getElementById('field-involved-names'),
-    fieldCoreFocus: document.getElementById('field-core-focus'),
-    asyncSlaBanner: document.getElementById('async-sla-banner'),
-    slotPickerSection: document.getElementById('slot-picker-section'),
-    
-    // Form Inputs
-    categoryInput: document.getElementById('category'),
-    nameInput: document.getElementById('customer_name'),
-    emailInput: document.getElementById('customer_email'),
-    phoneInput: document.getElementById('customer_phone'),
-    birthdateInput: document.getElementById('customer_birthdate'),
-    involvedNamesInput: document.getElementById('involved_names'),
-    coreFocusInput: document.getElementById('core_focus'),
-    questionInput: document.getElementById('question'),
-    questionLabel: document.getElementById('question-label'),
-    slotIdInput: document.getElementById('slot_id'),
-    lockTokenInput: document.getElementById('lock_token'),
-    
-    // Slot Picker Components
-    slotLockBanner: document.getElementById('slot-lock-banner'),
-    slotLockTimerText: document.getElementById('slot-lock-timer-text'),
-    btnReleaseLock: document.getElementById('btn-release-lock'),
-    slotLoading: document.getElementById('slot-loading-spinner'),
-    slotEmptyMsg: document.getElementById('slot-empty-msg'),
-    slotDatesContainer: document.getElementById('slot-dates-container'),
-    slotTimesGrid: document.getElementById('slot-times-grid'),
-    
-    // Summary & CTA
-    summaryTierName: document.getElementById('summary-tier-name'),
-    summaryPrice: document.getElementById('summary-price'),
-    summaryTurnaround: document.getElementById('summary-turnaround'),
-    submitBtn: document.getElementById('submit-btn'),
-    submitBtnText: document.getElementById('submit-btn-text'),
-    submitSpinner: document.getElementById('submit-spinner'),
-    formErrorBanner: document.getElementById('form-error-banner'),
-    formErrorText: document.getElementById('form-error-text'),
+// Global App State
+const state = {
+  activeScreen: 'screen-inicio',
+  selectedTier: '1_carta',
+  selectedSlotId: null,
+  lockToken: null,
+  lockExpiresAt: null,
+  slots: [],
+  isSubmitting: false,
+  pollTimer: null
+};
 
-    // Confirmation Modal Elements
-    confirmationModal: document.getElementById('confirmation-modal'),
-    modalPolling: document.getElementById('confirmation-polling'),
-    modalSuccessAsync: document.getElementById('confirmation-success-async'),
-    modalSuccessCall: document.getElementById('confirmation-success-call'),
-    modalOverbooked: document.getElementById('confirmation-overbooked'),
-    
-    // Async Modal Fields
-    asyncOrderId: document.getElementById('async-order-id'),
-    asyncCustomerEmail: document.getElementById('async-customer-email'),
-    asyncTierName: document.getElementById('async-tier-name'),
-    asyncCategoryName: document.getElementById('async-category-name'),
-    asyncAmountPaid: document.getElementById('async-amount-paid'),
-    asyncTurnaroundText: document.getElementById('async-turnaround-text'),
-    btnCloseAsyncModal: document.getElementById('btn-close-async-modal'),
+// ── NAVIGATION CONTROLLER ──
+function navigateTo(screenId) {
+  const screens = document.querySelectorAll('.screen');
+  screens.forEach(s => s.classList.remove('active'));
 
-    // Call Modal Fields
-    callOrderId: document.getElementById('call-order-id'),
-    callSlotDate: document.getElementById('call-slot-date'),
-    callSlotTime: document.getElementById('call-slot-time'),
-    btnCloseCallModal: document.getElementById('btn-close-call-modal'),
-
-    // Overbooked Modal Fields
-    overbookedOrderId: document.getElementById('overbooked-order-id'),
-    btnCloseOverbookedModal: document.getElementById('btn-close-overbooked-modal')
-  };
-
-  // --- Initialization ---
-  function init() {
-    bindEvents();
-    checkUrlForPostPaymentConfirmation();
-    applyTierSelection(state.selectedTier);
+  const target = document.getElementById(screenId);
+  if (target) {
+    target.classList.add('active');
+    state.activeScreen = screenId;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // --- Event Bindings ---
-  function bindEvents() {
-    // Tier Card Click and Radio Change
-    DOM.tierCards.forEach((card) => {
-      card.addEventListener('click', () => {
-        const tier = card.getAttribute('data-tier');
-        if (tier && tier !== state.selectedTier) {
-          const radio = card.querySelector('input[type="radio"]');
-          if (radio) radio.checked = true;
-          handleTierSwitch(tier);
-        }
-      });
+  // Update Navbar Active State
+  const navBtns = document.querySelectorAll('.nav-btn');
+  navBtns.forEach(b => b.classList.remove('active'));
 
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          const tier = card.getAttribute('data-tier');
-          if (tier && tier !== state.selectedTier) {
-            const radio = card.querySelector('input[type="radio"]');
-            if (radio) radio.checked = true;
-            handleTierSwitch(tier);
-          }
-        }
-      });
-    });
+  if (screenId === 'screen-inicio') document.getElementById('nav-inicio')?.classList.add('active');
+  else if (screenId === 'screen-lectura') document.getElementById('nav-lectura')?.classList.add('active');
+  else if (screenId === 'screen-sesion') {
+    document.getElementById('nav-sesion')?.classList.add('active');
+    loadSlots();
+  }
+  else if (screenId === 'screen-sobre') document.getElementById('nav-sobre')?.classList.add('active');
+}
+window.navigateTo = navigateTo;
 
-    DOM.tierRadios.forEach((radio) => {
-      radio.addEventListener('change', (e) => {
-        handleTierSwitch(e.target.value);
-      });
-    });
+// ── TIER SELECTOR (1, 3, 5 CARTAS) ──
+function selectTier(tierId) {
+  if (!TIER_METADATA[tierId]) return;
+  state.selectedTier = tierId;
 
-    // Form Submission
-    DOM.form.addEventListener('submit', handleFormSubmit);
+  // Update hidden tier input
+  const tierInput = document.getElementById('tier_id_input');
+  if (tierInput) tierInput.value = tierId;
 
-    // Release Lock Button
-    if (DOM.btnReleaseLock) {
-      DOM.btnReleaseLock.addEventListener('click', () => {
-        if (state.selectedSlotId && state.lockToken) {
-          releaseCurrentSlotLock(state.selectedSlotId, state.lockToken);
-        }
-        clearSlotLockState();
-        fetchAvailableSlots();
-      });
-    }
-
-    // Modal Close Buttons
-    const closeButtons = [
-      DOM.btnCloseAsyncModal,
-      DOM.btnCloseCallModal,
-      DOM.btnCloseOverbookedModal
-    ];
-
-    closeButtons.forEach((btn) => {
-      if (btn) {
-        btn.addEventListener('click', closeModalAndClearParams);
-      }
-    });
-
-    // Real-time input error removal on typing
-    const allInputs = [
-      DOM.categoryInput,
-      DOM.nameInput,
-      DOM.emailInput,
-      DOM.phoneInput,
-      DOM.birthdateInput,
-      DOM.involvedNamesInput,
-      DOM.coreFocusInput,
-      DOM.questionInput
-    ];
-
-    allInputs.forEach((input) => {
-      if (input) {
-        input.addEventListener('input', () => {
-          input.classList.remove('input-error');
-          const errEl = document.getElementById(`${input.id}-error`);
-          if (errEl) errEl.classList.add('hidden');
-          hideGlobalError();
-        });
-        input.addEventListener('change', () => {
-          input.classList.remove('input-error');
-          const errEl = document.getElementById(`${input.id}-error`);
-          if (errEl) errEl.classList.add('hidden');
-          hideGlobalError();
-        });
-      }
-    });
+  // Update Tabs
+  document.querySelectorAll('.tier-tab').forEach(tab => {
+    tab.classList.remove('active');
+    tab.setAttribute('aria-selected', 'false');
+  });
+  const activeTab = document.getElementById(`tab-${tierId}`);
+  if (activeTab) {
+    activeTab.classList.add('active');
+    activeTab.setAttribute('aria-selected', 'true');
   }
 
-  // --- Tier Switching Controller ---
-  function handleTierSwitch(newTier) {
-    if (!TIER_METADATA[newTier]) return;
+  // Update Price Badge & Button
+  const price = TIER_METADATA[tierId].price;
+  const badge = document.getElementById('lectura-price-badge');
+  const btnLabel = document.getElementById('btn-price-label');
+  if (badge) badge.textContent = `$${price} MXN`;
+  if (btnLabel) btnLabel.textContent = `$${price} MXN`;
 
-    // If switching away from live call while holding a soft-lock, release it immediately
-    if (state.selectedTier === 'llamada' && newTier !== 'llamada') {
-      if (state.selectedSlotId && state.lockToken) {
-        releaseCurrentSlotLock(state.selectedSlotId, state.lockToken);
-        clearSlotLockState();
-      }
-    }
+  // Toggle Dynamic Fields
+  const fieldInvolved = document.getElementById('field-involved-names');
+  const fieldCore = document.getElementById('field-core-focus');
+  const inputCore = document.getElementById('core_focus');
 
-    state.selectedTier = newTier;
-    applyTierSelection(newTier);
-
-    if (newTier === 'llamada') {
-      fetchAvailableSlots();
-    }
+  if (tierId === '1_carta') {
+    if (fieldInvolved) fieldInvolved.classList.add('hidden');
+    if (fieldCore) fieldCore.classList.add('hidden');
+    if (inputCore) inputCore.removeAttribute('required');
+  } else if (tierId === '3_cartas') {
+    if (fieldInvolved) fieldInvolved.classList.remove('hidden');
+    if (fieldCore) fieldCore.classList.add('hidden');
+    if (inputCore) inputCore.removeAttribute('required');
+  } else if (tierId === '5_cartas') {
+    if (fieldInvolved) fieldInvolved.classList.remove('hidden');
+    if (fieldCore) fieldCore.classList.remove('hidden');
+    if (inputCore) inputCore.setAttribute('required', 'true');
   }
+}
+window.selectTier = selectTier;
 
-  function applyTierSelection(tier) {
-    const meta = TIER_METADATA[tier] || TIER_METADATA['1_carta'];
+// ── SLOTS & CONCURRENCY ENGINE ──
+async function loadSlots() {
+  const container = document.getElementById('slots-container');
+  const grid = document.getElementById('slots-grid');
+  if (!container || !grid) return;
 
-    // Update active tier card classes and ARIA radio states
-    DOM.tierCards.forEach((card) => {
-      const cardTier = card.getAttribute('data-tier');
-      const isSelected = cardTier === tier;
-      if (isSelected) {
-        card.classList.add('active');
-        card.setAttribute('aria-checked', 'true');
-      } else {
-        card.classList.remove('active');
-        card.setAttribute('aria-checked', 'false');
-      }
-    });
+  grid.innerHTML = '<div class="slots-loading"><span class="spinner"></span><span>Consultando horarios disponibles...</span></div>';
 
-    // Toggle Dynamic Form Fields
-    if (tier === '1_carta') {
-      DOM.fieldInvolvedNames.classList.add('hidden');
-      DOM.fieldCoreFocus.classList.add('hidden');
-      DOM.asyncSlaBanner.classList.remove('hidden');
-      DOM.slotPickerSection.classList.add('hidden');
-    } else if (tier === '3_cartas') {
-      DOM.fieldInvolvedNames.classList.remove('hidden');
-      DOM.fieldCoreFocus.classList.add('hidden');
-      DOM.asyncSlaBanner.classList.remove('hidden');
-      DOM.slotPickerSection.classList.add('hidden');
-    } else if (tier === '5_cartas') {
-      DOM.fieldInvolvedNames.classList.remove('hidden');
-      DOM.fieldCoreFocus.classList.remove('hidden');
-      DOM.asyncSlaBanner.classList.remove('hidden');
-      DOM.slotPickerSection.classList.add('hidden');
-    } else if (tier === 'llamada') {
-      DOM.fieldInvolvedNames.classList.add('hidden');
-      DOM.fieldCoreFocus.classList.add('hidden');
-      DOM.asyncSlaBanner.classList.add('hidden');
-      DOM.slotPickerSection.classList.remove('hidden');
-    }
+  try {
+    const res = await fetch('/api/slots');
+    const data = await res.json();
 
-    // Update labels and placeholders
-    DOM.questionLabel.textContent = meta.questionLabel;
-    DOM.questionInput.placeholder = meta.questionPlaceholder;
-
-    // Update Summary Card
-    DOM.summaryTierName.textContent = meta.name;
-    DOM.summaryPrice.textContent = `$${meta.price} MXN`;
-    DOM.summaryTurnaround.textContent = meta.turnaroundText;
-
-    // Update Submit CTA Button
-    DOM.submitBtnText.textContent = meta.btnText;
-  }
-
-  // --- Slot Calendar & Soft-Locking Controller ---
-  async function fetchAvailableSlots() {
-    DOM.slotLoading.classList.remove('hidden');
-    DOM.slotEmptyMsg.classList.add('hidden');
-    DOM.slotDatesContainer.innerHTML = '';
-    DOM.slotTimesGrid.innerHTML = '';
-
-    try {
-      const response = await fetch('/api/slots');
-      const data = await response.json();
-
-      DOM.slotLoading.classList.add('hidden');
-
-      if (!response.ok || !data.success || !data.slots || data.slots.length === 0) {
-        DOM.slotEmptyMsg.classList.remove('hidden');
-        return;
-      }
-
-      state.slots = data.slots;
-      state.groupedSlots = {};
-
-      // Group available slots by date
-      data.slots.forEach((slot) => {
-        const d = slot.date || (slot.start_time ? slot.start_time.slice(0, 10) : '2026-08-20');
-        if (!state.groupedSlots[d]) {
-          state.groupedSlots[d] = [];
-        }
-        state.groupedSlots[d].push(slot);
-      });
-
-      const dates = Object.keys(state.groupedSlots).sort();
-      if (dates.length === 0) {
-        DOM.slotEmptyMsg.classList.remove('hidden');
-        return;
-      }
-
-      // Default to first available date or keep selected if still present
-      if (!state.selectedDate || !state.groupedSlots[state.selectedDate]) {
-        state.selectedDate = dates[0];
-      }
-
-      renderDatePills(dates);
-      renderTimeSlots(state.selectedDate);
-    } catch (err) {
-      DOM.slotLoading.classList.add('hidden');
-      DOM.slotEmptyMsg.textContent = 'Ocurrió un error al cargar los horarios disponibles. Por favor intenta de nuevo.';
-      DOM.slotEmptyMsg.classList.remove('hidden');
-    }
-  }
-
-  function renderDatePills(dates) {
-    DOM.slotDatesContainer.innerHTML = '';
-    dates.forEach((dateStr) => {
-      const pill = document.createElement('button');
-      pill.type = 'button';
-      pill.className = `date-pill ${dateStr === state.selectedDate ? 'active' : ''}`;
-      pill.setAttribute('role', 'tab');
-      pill.setAttribute('aria-selected', dateStr === state.selectedDate ? 'true' : 'false');
-      pill.textContent = formatDatePill(dateStr);
-
-      pill.addEventListener('click', () => {
-        state.selectedDate = dateStr;
-        document.querySelectorAll('.date-pill').forEach((p) => {
-          p.classList.remove('active');
-          p.setAttribute('aria-selected', 'false');
-        });
-        pill.classList.add('active');
-        pill.setAttribute('aria-selected', 'true');
-        renderTimeSlots(dateStr);
-      });
-
-      DOM.slotDatesContainer.appendChild(pill);
-    });
-  }
-
-  function renderTimeSlots(dateStr) {
-    DOM.slotTimesGrid.innerHTML = '';
-    const daySlots = state.groupedSlots[dateStr] || [];
-
-    if (daySlots.length === 0) {
-      DOM.slotTimesGrid.innerHTML = '<p class="form-hint" style="grid-column: 1/-1; text-align: center; padding: 1rem;">No hay horarios disponibles para esta fecha.</p>';
+    if (!data.success || !Array.isArray(data.slots) || data.slots.length === 0) {
+      grid.innerHTML = '<div class="slots-empty">No hay horarios disponibles por el momento. Claudia abrirá nuevos espacios pronto.</div>';
       return;
     }
 
-    daySlots.forEach((slot) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      const isSelected = slot.id === state.selectedSlotId;
-      btn.className = `slot-btn ${isSelected ? 'active' : ''}`;
-      btn.setAttribute('data-slot-id', slot.id);
+    state.slots = data.slots;
+    renderSlots(data.slots);
+  } catch (err) {
+    grid.innerHTML = '<div class="slots-empty">No fue posible cargar los horarios. Por favor intenta nuevamente.</div>';
+  }
+}
+window.loadSlots = loadSlots;
 
-      const timeLabel = slot.time_start ? `${slot.time_start} hrs` : formatTimeLabel(slot.start_time);
-      btn.textContent = timeLabel;
+function renderSlots(slots) {
+  const grid = document.getElementById('slots-grid');
+  if (!grid) return;
 
-      btn.addEventListener('click', () => handleSlotSelection(slot.id));
-      DOM.slotTimesGrid.appendChild(btn);
+  grid.innerHTML = '';
+  slots.forEach(slot => {
+    const chip = document.createElement('div');
+    chip.className = `slot-chip ${state.selectedSlotId === slot.id ? 'selected' : ''}`;
+    chip.id = `slot-chip-${slot.id}`;
+    chip.tabIndex = 0;
+
+    // CDMX formatting
+    const slotDate = new Date(slot.start_time);
+    const dateFormatted = slot.date || slotDate.toLocaleDateString('es-MX', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      timeZone: 'America/Mexico_City'
     });
-  }
 
-  function formatDatePill(dateStr) {
-    const parts = dateStr.split('-');
-    if (parts.length !== 3) return dateStr;
-    const year = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1;
-    const day = parseInt(parts[2], 10);
-    const dateObj = new Date(Date.UTC(year, month, day, 12, 0, 0));
+    const timeFormatted = slot.time_start || slotDate.toLocaleTimeString('es-MX', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'America/Mexico_City'
+    });
 
-    const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-    const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    chip.innerHTML = `
+      <div class="slot-date">${dateFormatted}</div>
+      <div class="slot-time">${timeFormatted} hrs</div>
+    `;
 
-    return `${dayNames[dateObj.getUTCDay()]} ${day} ${monthNames[month]}`;
-  }
+    chip.addEventListener('click', () => handleSlotSelect(slot.id));
+    grid.appendChild(chip);
+  });
+}
 
-  function formatTimeLabel(isoStr) {
-    if (!isoStr) return '';
-    try {
-      const date = new Date(isoStr);
-      const hours = String(date.getUTCHours()).padStart(2, '0');
-      const mins = String(date.getUTCMinutes()).padStart(2, '0');
-      return `${hours}:${mins} hrs`;
-    } catch {
-      return isoStr;
+function handleSlotSelection(slotId) {
+  return handleSlotSelect(slotId);
+}
+window.handleSlotSelection = handleSlotSelection;
+
+async function handleSlotSelect(slotId) {
+  if (state.selectedSlotId === slotId) return;
+
+  try {
+    const res = await fetch(`/api/slots/${slotId}/lock`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      showToast(data.error || 'Este horario ya fue apartado por otra persona.');
+      loadSlots();
+      return;
     }
+
+    // Lock granted
+    state.selectedSlotId = slotId;
+    state.lockToken = data.lock_token;
+    state.lockExpiresAt = new Date(data.expires_at).getTime();
+
+    const inputSlotId = document.getElementById('selected_slot_id');
+    if (inputSlotId) inputSlotId.value = slotId;
+
+    // Update UI chips
+    document.querySelectorAll('.slot-chip').forEach(c => c.classList.remove('selected'));
+    const chip = document.getElementById(`slot-chip-${slotId}`);
+    if (chip) chip.classList.add('selected');
+
+    // Show Lock Banner
+    const banner = document.getElementById('slot-lock-banner');
+    if (banner) banner.classList.remove('hidden');
+
+  } catch (err) {
+    showToast('Error al apartar horario temporalmente.');
+  }
+}
+
+// ── FORM SUBMISSIONS & MERCADO PAGO CHECKOUT ──
+async function handleLecturaSubmit(event) {
+  if (event) event.preventDefault();
+  if (state.isSubmitting) return;
+
+  const name = document.getElementById('customer_name')?.value.trim();
+  const email = document.getElementById('customer_email')?.value.trim();
+  const phone = document.getElementById('customer_phone')?.value.trim() || undefined;
+  const birthdate = document.getElementById('customer_birthdate')?.value;
+  const category = document.getElementById('category')?.value;
+  const question = document.getElementById('question')?.value.trim();
+  const involvedNames = document.getElementById('involved_names')?.value.trim() || undefined;
+  const coreFocus = document.getElementById('core_focus')?.value.trim() || undefined;
+
+  if (!name || !email || !birthdate || !category || !question) {
+    showToast('Por favor completa todos los campos requeridos.');
+    return;
   }
 
-  async function handleSlotSelection(slotId) {
-    if (state.selectedSlotId === slotId && state.lockToken) return;
+  if (state.selectedTier === '5_cartas' && !coreFocus) {
+    showToast('Para la lectura de 5 cartas es necesario indicar qué es lo que más deseas saber.');
+    return;
+  }
 
-    // Release previously held lock if switching slots
-    if (state.selectedSlotId && state.lockToken) {
-      releaseCurrentSlotLock(state.selectedSlotId, state.lockToken);
-    }
+  const payload = {
+    tier_id: state.selectedTier,
+    customer_name: name,
+    customer_email: email,
+    customer_phone: phone,
+    customer_birthdate: birthdate,
+    category: category,
+    question: question,
+    involved_names: involvedNames,
+    core_focus: coreFocus
+  };
 
-    try {
-      const response = await fetch(`/api/slots/${slotId}/lock`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      const data = await response.json();
+  await initiateCheckout(payload, document.getElementById('submit-btn'));
+}
+window.handleLecturaSubmit = handleLecturaSubmit;
 
-      if (response.status === 409 || !response.ok || !data.success) {
-        showGlobalError(data.error || 'El horario seleccionado ya fue apartado por otra persona. Por favor elige otro horario.');
-        clearSlotLockState();
-        fetchAvailableSlots();
-        return;
+async function handleLlamadaSubmit(event) {
+  if (event) event.preventDefault();
+  if (state.isSubmitting) return;
+
+  const slotId = state.selectedSlotId || document.getElementById('selected_slot_id')?.value;
+  const name = document.getElementById('call_customer_name')?.value.trim();
+  const email = document.getElementById('call_customer_email')?.value.trim();
+  const phone = document.getElementById('call_customer_phone')?.value.trim() || undefined;
+  const birthdate = document.getElementById('call_customer_birthdate')?.value;
+  const question = document.getElementById('call_question')?.value.trim();
+
+  if (!slotId) {
+    showToast('Por favor selecciona un horario disponible en el calendario.');
+    return;
+  }
+
+  if (!name || !email || !birthdate || !question) {
+    showToast('Por favor completa todos los datos de tu consulta.');
+    return;
+  }
+
+  const payload = {
+    tier_id: 'llamada',
+    slot_id: slotId,
+    lock_token: state.lockToken,
+    customer_name: name,
+    customer_email: email,
+    customer_phone: phone,
+    customer_birthdate: birthdate,
+    question: question
+  };
+
+  await initiateCheckout(payload, document.getElementById('call-submit-btn'));
+}
+window.handleLlamadaSubmit = handleLlamadaSubmit;
+
+async function initiateCheckout(payload, submitBtn) {
+  state.isSubmitting = true;
+  const originalText = submitBtn ? submitBtn.innerHTML : '';
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span> Generando enlace seguro...';
+  }
+
+  try {
+    const res = await fetch('/api/checkout/create-preference', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      showToast(data.error || 'Error al conectar con la pasarela de pagos.');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
       }
-
-      // Lock acquired successfully
-      state.selectedSlotId = slotId;
-      state.lockToken = data.lock_token;
-      state.lockExpiresAt = new Date(data.expires_at).getTime();
-
-      DOM.slotIdInput.value = slotId;
-      DOM.lockTokenInput.value = data.lock_token;
-
-      // Update UI active slot chip
-      renderTimeSlots(state.selectedDate);
-
-      // Start 15-minute countdown ticker
-      startLockTimer();
-      hideGlobalError();
-      const slotErr = document.getElementById('slot_id-error');
-      if (slotErr) slotErr.classList.add('hidden');
-    } catch (err) {
-      showGlobalError('No fue posible apartar el horario. Por favor revisa tu conexión e intenta de nuevo.');
-    }
-  }
-
-  function startLockTimer() {
-    if (state.lockTimerInterval) clearInterval(state.lockTimerInterval);
-    DOM.slotLockBanner.classList.remove('hidden');
-
-    function tick() {
-      const remainingMs = state.lockExpiresAt - Date.now();
-
-      if (remainingMs <= 0) {
-        clearInterval(state.lockTimerInterval);
-        clearSlotLockState();
-        showGlobalError('El tiempo de apartado de 15 minutos ha expirado. Por favor selecciona y aparta un nuevo horario.');
-        fetchAvailableSlots();
-        return;
-      }
-
-      const totalSeconds = Math.max(0, Math.floor(remainingMs / 1000));
-      const mins = Math.floor(totalSeconds / 60);
-      const secs = totalSeconds % 60;
-      DOM.slotLockTimerText.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      state.isSubmitting = false;
+      return;
     }
 
-    tick();
-    state.lockTimerInterval = setInterval(tick, 1000);
-  }
-
-  function clearSlotLockState() {
-    if (state.lockTimerInterval) clearInterval(state.lockTimerInterval);
-    state.selectedSlotId = null;
-    state.lockToken = null;
-    state.lockExpiresAt = null;
-
-    DOM.slotIdInput.value = '';
-    DOM.lockTokenInput.value = '';
-    DOM.slotLockBanner.classList.add('hidden');
-    renderTimeSlots(state.selectedDate);
-  }
-
-  async function releaseCurrentSlotLock(slotId, lockToken) {
-    try {
-      await fetch(`/api/slots/${slotId}/release`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lock_token: lockToken })
-      });
-    } catch {
-      // Best-effort lock release
-    }
-  }
-
-  // --- Strict Form Validation ---
-  function validateForm() {
-    hideAllErrors();
-    let isValid = true;
-    let firstErrorField = null;
-
-    function setFieldError(inputElem, errorElemId, message) {
-      if (inputElem) inputElem.classList.add('input-error');
-      const errElem = document.getElementById(errorElemId);
-      if (errElem) {
-        errElem.textContent = message;
-        errElem.classList.remove('hidden');
-      }
-      if (!firstErrorField && inputElem) {
-        firstErrorField = inputElem;
-      }
-      isValid = false;
-    }
-
-    // Category Validation
-    const category = DOM.categoryInput.value;
-    if (!category || !['Amor', 'Trabajo/Dinero', 'Familia', 'Otro'].includes(category)) {
-      setFieldError(DOM.categoryInput, 'category-error', 'Por favor selecciona el área de tu consulta.');
-    }
-
-    // Name Validation (>= 2 chars)
-    const name = DOM.nameInput.value.trim();
-    if (!name || name.length < 2) {
-      setFieldError(DOM.nameInput, 'customer_name-error', 'Por favor ingresa tu nombre completo (mínimo 2 letras).');
-    }
-
-    // Email Validation (RFC 5322 regex)
-    const email = DOM.emailInput.value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
-      setFieldError(DOM.emailInput, 'customer_email-error', 'Ingresa un correo electrónico válido para recibir tu lectura.');
-    }
-
-    // Birthdate Validation (Past Gregorian date YYYY-MM-DD)
-    const birthdate = DOM.birthdateInput.value.trim();
-    if (!isValidPastDate(birthdate)) {
-      setFieldError(DOM.birthdateInput, 'customer_birthdate-error', 'Ingresa una fecha de nacimiento válida en el pasado (AAAA-MM-DD).');
-    }
-
-    // 5-Cartas Core Focus Validation (Required for 5_cartas)
-    if (state.selectedTier === '5_cartas') {
-      const coreFocus = DOM.coreFocusInput.value.trim();
-      if (!coreFocus || coreFocus.length < 1) {
-        setFieldError(DOM.coreFocusInput, 'core_focus-error', 'Por favor especifica qué es lo que más deseas saber para la tirada de 5 cartas.');
-      }
-    }
-
-    // Primary Question Validation
-    const question = DOM.questionInput.value.trim();
-    if (!question || question.length < 1) {
-      setFieldError(DOM.questionInput, 'question-error', 'Por favor ingresa tu pregunta o consulta.');
-    }
-
-    // Live Call Slot Selection Validation
-    if (state.selectedTier === 'llamada') {
-      if (!state.selectedSlotId || !state.lockToken) {
-        const slotErr = document.getElementById('slot_id-error');
-        if (slotErr) {
-          slotErr.textContent = 'Por favor selecciona y aparta un horario disponible en el calendario para tu llamada.';
-          slotErr.classList.remove('hidden');
-        }
-        showGlobalError('Por favor selecciona y aparta un horario en el calendario para tu llamada.');
-        if (!firstErrorField) firstErrorField = DOM.slotPickerSection;
-        isValid = false;
-      }
-    }
-
-    if (firstErrorField) {
-      firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      if (typeof firstErrorField.focus === 'function') {
-        firstErrorField.focus();
-      }
-    }
-
-    return isValid;
-  }
-
-  function isValidPastDate(dateStr) {
-    if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return false;
-    const [y, m, d] = dateStr.split('-').map(Number);
-    if (y < 1900 || y > 2100 || m < 1 || m > 12 || d < 1 || d > 31) return false;
-    const dateObj = new Date(Date.UTC(y, m - 1, d));
-    if (dateObj.getUTCFullYear() !== y || dateObj.getUTCMonth() !== m - 1 || dateObj.getUTCDate() !== d) {
-      return false;
-    }
-    // Must be in the past
-    return dateObj.getTime() < Date.now();
-  }
-
-  function hideAllErrors() {
-    document.querySelectorAll('.input-error').forEach((el) => el.classList.remove('input-error'));
-    document.querySelectorAll('.field-error-text').forEach((el) => el.classList.add('hidden'));
-    hideGlobalError();
-  }
-
-  function showGlobalError(msg) {
-    DOM.formErrorText.textContent = msg;
-    DOM.formErrorBanner.classList.remove('hidden');
-  }
-
-  function hideGlobalError() {
-    DOM.formErrorBanner.classList.add('hidden');
-  }
-
-  // --- Form Submission & Mercado Pago Preference Creation ---
-  async function handleFormSubmit(e) {
-    e.preventDefault();
-    if (state.isSubmitting) return;
-
-    if (!validateForm()) return;
-
-    state.isSubmitting = true;
-    DOM.submitBtn.disabled = true;
-    DOM.submitBtnText.classList.add('hidden');
-    DOM.submitSpinner.classList.remove('hidden');
-
-    const payload = {
-      tier_id: state.selectedTier,
-      category: DOM.categoryInput.value,
-      customer_name: DOM.nameInput.value.trim(),
-      customer_email: DOM.emailInput.value.trim(),
-      customer_phone: DOM.phoneInput.value.trim() || undefined,
-      customer_birthdate: DOM.birthdateInput.value.trim(),
-      question: DOM.questionInput.value.trim()
-    };
-
-    if (state.selectedTier === '3_cartas' || state.selectedTier === '5_cartas') {
-      const involved = DOM.involvedNamesInput.value.trim();
-      if (involved) payload.involved_names = involved;
-    }
-
-    if (state.selectedTier === '5_cartas') {
-      payload.core_focus = DOM.coreFocusInput.value.trim();
-    }
-
-    if (state.selectedTier === 'llamada') {
-      payload.slot_id = state.selectedSlotId;
-      payload.lock_token = state.lockToken;
-    }
-
-    try {
-      const response = await fetch('/api/checkout/create-preference', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        showGlobalError(data.error || 'Ocurrió un error al procesar tu solicitud. Por favor intenta de nuevo.');
-        resetSubmitButton();
-        return;
-      }
-
-      // Save order metadata to sessionStorage for fallback polling
-      try {
-        sessionStorage.setItem('lumina_last_order_id', data.order_id);
-        sessionStorage.setItem('lumina_last_tier_id', state.selectedTier);
-        sessionStorage.setItem('lumina_customer_email', payload.customer_email);
-      } catch {
-        // Ignore sessionStorage restrictions
-      }
-
-      // Redirect user to Mercado Pago Checkout
-      const redirectUrl = data.init_point || data.sandbox_init_point;
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
-      } else {
-        showGlobalError('No fue posible generar el enlace de pago de Mercado Pago.');
-        resetSubmitButton();
-      }
-    } catch (err) {
-      showGlobalError('Error de comunicación con el servidor. Por favor verifica tu conexión e intenta de nuevo.');
-      resetSubmitButton();
-    }
-  }
-
-  function resetSubmitButton() {
-    state.isSubmitting = false;
-    DOM.submitBtn.disabled = false;
-    DOM.submitBtnText.classList.remove('hidden');
-    DOM.submitSpinner.classList.add('hidden');
-  }
-
-  // --- Post-Payment Status Polling & Confirmation Engine ---
-  function checkUrlForPostPaymentConfirmation() {
-    const params = new URLSearchParams(window.location.search);
-    const orderId = params.get('order_id') || params.get('external_reference') || sessionStorage.getItem('lumina_last_order_id');
-    const hasPaymentParam = params.has('status') || params.has('payment_id') || params.has('collection_status') || params.has('order_id') || params.has('preference_id');
-
-    if (orderId && hasPaymentParam) {
-      openStatusConfirmationModal(orderId);
-    }
-  }
-
-  function openStatusConfirmationModal(orderId) {
-    DOM.confirmationModal.classList.remove('hidden');
-    DOM.modalPolling.classList.remove('hidden');
-    DOM.modalSuccessAsync.classList.add('hidden');
-    DOM.modalSuccessCall.classList.add('hidden');
-    DOM.modalOverbooked.classList.add('hidden');
-
-    let attempts = 0;
-    const maxAttempts = 35;
-
-    async function poll() {
-      attempts++;
-      try {
-        const response = await fetch(`/api/orders/${orderId}/status`);
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-          const status = (data.status || '').toUpperCase();
-
-          if (status === 'APPROVED' || status === 'PAID') {
-            if (state.pollInterval) clearInterval(state.pollInterval);
-            renderSuccessConfirmation(data);
-            return;
-          }
-
-          if (status === 'OVERBOOKED_NEEDS_RESCHEDULING') {
-            if (state.pollInterval) clearInterval(state.pollInterval);
-            renderOverbookedConfirmation(data);
-            return;
-          }
-        }
-      } catch {
-        // Keep polling on transient network hiccups
-      }
-
-      if (attempts >= maxAttempts) {
-        if (state.pollInterval) clearInterval(state.pollInterval);
-        renderPendingFallback(orderId);
-      }
-    }
-
-    poll();
-    state.pollInterval = setInterval(poll, 2500);
-  }
-
-  function renderSuccessConfirmation(orderData) {
-    DOM.modalPolling.classList.add('hidden');
-
-    const isCall = orderData.tier_id === 'llamada' || !!orderData.slot;
-
-    if (isCall) {
-      DOM.modalSuccessCall.classList.remove('hidden');
-      DOM.callOrderId.textContent = `#${orderData.order_id}`;
-
-      if (orderData.slot) {
-        DOM.callSlotDate.textContent = orderData.slot.date ? formatDatePill(orderData.slot.date) : 'Fecha confirmada';
-        DOM.callSlotTime.textContent = `${orderData.slot.time_start || '16:00'} - ${orderData.slot.time_end || '16:45'} hrs (Hora CDMX / UTC-6)`;
-      }
+    // Redirect to Mercado Pago
+    const redirectUrl = data.init_point || data.sandbox_init_point;
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
     } else {
-      DOM.modalSuccessAsync.classList.remove('hidden');
-      DOM.asyncOrderId.textContent = `#${orderData.order_id}`;
-      DOM.asyncTierName.textContent = orderData.tier_name || TIER_METADATA[orderData.tier_id]?.name || 'Lectura de Tarot';
-      DOM.asyncCategoryName.textContent = orderData.category || 'Consulta Espiritual';
-      DOM.asyncAmountPaid.textContent = `$${orderData.amount || TIER_METADATA[orderData.tier_id]?.price || 150} MXN`;
-      DOM.asyncTurnaroundText.textContent = orderData.turnaround_message || '✨ Tu lectura personalizada será grabada y enviada a tu correo dentro de las próximas 24 horas hábiles.';
-
-      const storedEmail = sessionStorage.getItem('lumina_customer_email');
-      if (storedEmail) {
-        DOM.asyncCustomerEmail.textContent = storedEmail;
+      showToast('Enlace de pago no disponible.');
+      state.isSubmitting = false;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
       }
     }
-  }
-
-  function renderOverbookedConfirmation(orderData) {
-    DOM.modalPolling.classList.add('hidden');
-    DOM.modalOverbooked.classList.remove('hidden');
-    DOM.overbookedOrderId.textContent = `#${orderData.order_id}`;
-  }
-
-  function renderPendingFallback(orderId) {
-    DOM.modalPolling.classList.add('hidden');
-    DOM.modalSuccessAsync.classList.remove('hidden');
-    DOM.asyncOrderId.textContent = `#${orderId}`;
-    DOM.asyncTierName.textContent = 'Pago en Verificación';
-    DOM.asyncCategoryName.textContent = 'Consulta';
-    DOM.asyncAmountPaid.textContent = 'Procesando';
-    DOM.asyncTurnaroundText.textContent = 'Tu pago se está procesando con Mercado Pago. En cuanto se confirme recibirás tu comprobante y lectura en un plazo de 24 horas a tu correo.';
-  }
-
-  function closeModalAndClearParams() {
-    DOM.confirmationModal.classList.add('hidden');
-    if (state.pollInterval) clearInterval(state.pollInterval);
-    try {
-      window.history.replaceState({}, document.title, window.location.pathname);
-      sessionStorage.removeItem('lumina_last_order_id');
-    } catch {
-      // Ignore
+  } catch (err) {
+    showToast('Error de conexión al procesar la solicitud.');
+    state.isSubmitting = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
     }
   }
+}
 
-  // --- Start Application on DOM Ready ---
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+// ── FAQ ACCORDION TOGGLE ──
+function toggleFaq(element) {
+  if (!element) return;
+  const wasOpen = element.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('open'));
+  if (!wasOpen) {
+    element.classList.add('open');
   }
-})();
+}
+window.toggleFaq = toggleFaq;
+
+// ── TOAST NOTIFICATIONS ──
+function showToast(msg, duration = 4000) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => {
+    if (toast) toast.classList.remove('show');
+  }, duration);
+}
+window.showToast = showToast;
+
+// ── POST-PAYMENT POLLING & CONFIRMATION MODAL ──
+function checkForRedirectOrder() {
+  const params = new URLSearchParams(window.location.search);
+  const orderId = params.get('order_id') || params.get('external_reference');
+
+  if (orderId) {
+    startOrderPolling(orderId);
+  }
+}
+
+function startOrderPolling(orderId) {
+  const modal = document.getElementById('confirmation-modal');
+  const statePolling = document.getElementById('confirmation-polling');
+  const stateAsync = document.getElementById('confirmation-success-async');
+  const stateCall = document.getElementById('confirmation-success-call');
+  const stateOverbooked = document.getElementById('confirmation-overbooked');
+
+  if (modal) modal.classList.remove('hidden');
+  if (statePolling) statePolling.classList.remove('hidden');
+  if (stateAsync) stateAsync.classList.add('hidden');
+  if (stateCall) stateCall.classList.add('hidden');
+  if (stateOverbooked) stateOverbooked.classList.add('hidden');
+
+  let attempts = 0;
+  const maxAttempts = 30; // ~60 seconds
+
+  state.pollTimer = setInterval(async () => {
+    attempts++;
+    try {
+      const res = await fetch(`/api/orders/${orderId}/status`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.status === 'approved') {
+          clearInterval(state.pollTimer);
+          if (statePolling) statePolling.classList.add('hidden');
+
+          if (data.tier_id === 'llamada') {
+            if (stateCall) {
+              stateCall.classList.remove('hidden');
+              const orderIdEl = document.getElementById('call-order-id');
+              if (orderIdEl) orderIdEl.textContent = `#${data.order_id || orderId}`;
+              if (data.slot) {
+                const dateEl = document.getElementById('call-slot-date');
+                const timeEl = document.getElementById('call-slot-time');
+                if (dateEl) dateEl.textContent = data.slot.date || 'Confirmada';
+                if (timeEl) timeEl.textContent = data.slot.time_start ? `${data.slot.time_start} hrs` : 'Horario apartado';
+              }
+            }
+          } else {
+            if (stateAsync) {
+              stateAsync.classList.remove('hidden');
+              const orderIdEl = document.getElementById('async-order-id');
+              const emailEl = document.getElementById('async-customer-email');
+              if (orderIdEl) orderIdEl.textContent = `#${data.order_id || orderId}`;
+              if (emailEl) emailEl.textContent = data.customer_email || 'tu correo';
+            }
+          }
+          return;
+        } else if (data.status === 'OVERBOOKED_NEEDS_RESCHEDULING') {
+          clearInterval(state.pollTimer);
+          if (statePolling) statePolling.classList.add('hidden');
+          if (stateOverbooked) stateOverbooked.classList.remove('hidden');
+          return;
+        }
+      }
+    } catch (e) {
+      // Keep polling
+    }
+
+    if (attempts >= maxAttempts) {
+      clearInterval(state.pollTimer);
+      if (statePolling) {
+        statePolling.innerHTML = `
+          <div class="modal-icon-badge">⏳</div>
+          <h2 class="modal-title">Pago en Proceso</h2>
+          <p class="modal-subtitle">Tu comprobante está siendo procesado por Mercado Pago. Te notificaremos a tu correo en cuanto se complete la confirmación.</p>
+          <button type="button" class="confirm-back" id="btn-polling-timeout-back">Volver al Inicio</button>
+        `;
+        document.getElementById('btn-polling-timeout-back')?.addEventListener('click', closeModalAndGoHome);
+      }
+    }
+  }, 2000);
+}
+
+function closeModalAndGoHome() {
+  const modal = document.getElementById('confirmation-modal');
+  if (modal) modal.classList.add('hidden');
+  window.history.replaceState({}, document.title, window.location.pathname);
+  navigateTo('screen-inicio');
+}
+window.closeModalAndGoHome = closeModalAndGoHome;
+
+// ── INITIALIZE EVENT LISTENERS (UNOBTRUSIVE JS) ──
+document.addEventListener('DOMContentLoaded', () => {
+  // Service Cards on Inicio
+  document.getElementById('btn-goto-lectura')?.addEventListener('click', () => navigateTo('screen-lectura'));
+  document.getElementById('btn-goto-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
+
+  // Back Buttons
+  document.getElementById('btn-back-lectura')?.addEventListener('click', () => navigateTo('screen-inicio'));
+  document.getElementById('btn-back-sesion')?.addEventListener('click', () => navigateTo('screen-inicio'));
+
+  // Navbar Buttons
+  document.getElementById('nav-inicio')?.addEventListener('click', () => navigateTo('screen-inicio'));
+  document.getElementById('nav-lectura')?.addEventListener('click', () => navigateTo('screen-lectura'));
+  document.getElementById('nav-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
+  document.getElementById('nav-sobre')?.addEventListener('click', () => navigateTo('screen-sobre'));
+
+  // Tier Selector Tabs
+  document.querySelectorAll('.tier-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tier = tab.getAttribute('data-tier');
+      if (tier) selectTier(tier);
+    });
+  });
+
+  // Booking Forms
+  document.getElementById('booking-form')?.addEventListener('submit', handleLecturaSubmit);
+  document.getElementById('form-llamada')?.addEventListener('submit', handleLlamadaSubmit);
+
+  // FAQ Accordion Items
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => toggleFaq(item));
+  });
+
+  // Modal Close Buttons
+  document.getElementById('btn-close-modal-async')?.addEventListener('click', closeModalAndGoHome);
+  document.getElementById('btn-close-modal-call')?.addEventListener('click', closeModalAndGoHome);
+  document.getElementById('btn-close-modal-overbooked')?.addEventListener('click', closeModalAndGoHome);
+
+  // Check URL params for order redirect
+  checkForRedirectOrder();
+});
