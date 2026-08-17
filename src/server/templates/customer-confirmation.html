@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmación de tu Lectura — Lumina Umay</title>
+  <style>
+    :root {
+      --teal: #0d2b2a;
+      --teal-deep: #081d1c;
+      --gold: #d4af37;
+      --gold-light: #e8c85a;
+      --cream: #fbf8f2;
+      --text-dark: #1f2937;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fbf8f2;
+      font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .wrapper {
+      width: 100%;
+      background-color: #fbf8f2;
+      padding: 30px 15px;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(13, 43, 42, 0.08);
+      border: 1px solid #eedec3;
+    }
+    .header {
+      background: linear-gradient(135deg, #0d2b2a 0%, #081d1c 100%);
+      padding: 36px 24px 28px;
+      text-align: center;
+      border-bottom: 3px solid #d4af37;
+    }
+    .header-logo {
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #d4af37;
+      text-transform: uppercase;
+      margin: 0 0 6px 0;
+    }
+    .header-subtitle {
+      font-size: 15px;
+      letter-spacing: 1.5px;
+      color: #fbf8f2;
+      margin: 0;
+      opacity: 0.95;
+    }
+    .content {
+      padding: 32px 28px;
+    }
+    .greeting {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #0d2b2a;
+      margin-bottom: 12px;
+    }
+    .intro-text {
+      font-size: 15px;
+      color: #374151;
+      margin-bottom: 24px;
+    }
+    .status-card {
+      background: linear-gradient(135deg, rgba(13, 43, 42, 0.04) 0%, rgba(212, 175, 55, 0.08) 100%);
+      border: 1px solid #d4af37;
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 28px;
+    }
+    .status-card-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: #0d2b2a;
+      margin: 0 0 10px 0;
+    }
+    .status-card-text {
+      font-size: 15px;
+      color: #1f2937;
+      margin: 0;
+    }
+    .receipt-card {
+      background-color: #fbf8f2;
+      border: 1px solid #ede8df;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .receipt-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0d2b2a;
+      margin: 0 0 14px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed #d4af37;
+    }
+    .receipt-row {
+      display: table;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .receipt-row:last-child {
+      margin-bottom: 0;
+    }
+    .receipt-label {
+      display: table-cell;
+      font-size: 14px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    .receipt-value {
+      display: table-cell;
+      font-size: 14px;
+      color: #1f2937;
+      font-weight: 600;
+      text-align: right;
+    }
+    .question-box {
+      background-color: #ffffff;
+      border-left: 3px solid #d4af37;
+      padding: 12px 14px;
+      border-radius: 0 6px 6px 0;
+      margin-top: 14px;
+      font-size: 14px;
+      color: #374151;
+      font-style: italic;
+    }
+    .closing-text {
+      font-size: 15px;
+      color: #374151;
+      margin: 24px 0 8px;
+      line-height: 1.6;
+    }
+    .signature {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      font-style: italic;
+      color: #0d2b2a;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+    .footer {
+      background-color: #fbf8f2;
+      border-top: 1px solid #eedec3;
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: #78716c;
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0d2b2a;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-logo">LUMINA UMAY</div>
+        <div class="header-subtitle">¡Gracias por tu confianza!</div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="content">
+        <div class="greeting">¡Hola {{customer_name}}!</div>
+        <div class="intro-text">
+          Hemos recibido tu pago con éxito y tu consulta ha sido registrada en el sistema de Lumina Umay.
+        </div>
+
+        <!-- CONDITIONAL DELIVERY / CALL DETAILS -->
+        {{#if is_call}}
+        <div class="status-card">
+          <div class="status-card-title">Cita de Llamada Confirmada</div>
+          <div class="status-card-text">
+            Tu sesión en vivo por llamada ha sido agendada y confirmada exitosamente:
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li><strong>Fecha:</strong> {{slot_date}}</li>
+              <li><strong>Horario:</strong> {{slot_time_start}} - {{slot_time_end}} hrs (Hora de la Ciudad de México)</li>
+            </ul>
+            Claudia se conectará contigo puntualmente. Te recomendamos estar en un espacio tranquilo y libre de distracciones 5 minutos antes de la hora programada.
+          </div>
+        </div>
+        {{else}}
+        <div class="status-card">
+          <div class="status-card-title">Garantía de Entrega (24 Horas)</div>
+          <div class="status-card-text">
+            Claudia revisará tu consulta con total dedicación. Recibirás tu lectura detallada en un plazo máximo de <strong>24 horas</strong> directamente a este correo electrónico.
+          </div>
+        </div>
+        {{/if}}
+
+        <!-- RECEIPT SUMMARY -->
+        <div class="receipt-card">
+          <div class="receipt-title">Resumen de tu Pedido</div>
+          <div class="receipt-row">
+            <div class="receipt-label">Número de Orden:</div>
+            <div class="receipt-value">{{order_id}}</div>
+          </div>
+          <div class="receipt-row">
+            <div class="receipt-label">Servicio:</div>
+            <div class="receipt-value">{{tier_name}}</div>
+          </div>
+          <div class="receipt-row">
+            <div class="receipt-label">Categoría:</div>
+            <div class="receipt-value">{{category}}</div>
+          </div>
+          <div class="receipt-row">
+            <div class="receipt-label">Total Pagado:</div>
+            <div class="receipt-value" style="color: #0d2b2a; font-size: 16px;">${{amount_mxn}} MXN</div>
+          </div>
+          <div class="question-box">
+            "{{question}}"
+          </div>
+        </div>
+
+        <!-- CLOSING -->
+        <div class="closing-text">
+          Si tienes alguna duda o necesitas asistencia adicional, puedes responder a este correo electrónico.
+        </div>
+        <div class="signature">
+          Con luz, gratitud y bendiciones,<br>
+          Claudia — Lumina Umay
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <div class="footer-brand">Lumina Umay</div>
+        <div>Portal de Lecturas, Tarot y Sabiduría Ancestral</div>
+        <div style="font-size: 11px; margin-top: 6px; color: #a8a29e;">
+          contacto@luminaumay.com • Ciudad de México
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

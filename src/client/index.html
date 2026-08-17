@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Lumina Umay — Lecturas de Tarot Terapéutico y Claridad Espiritual con Claudia. Consulta personalizada por mensaje o sesión en vivo por llamada con pago seguro vía Mercado Pago.">
+  <meta name="theme-color" content="#081d1c">
+  <title>Lumina Umay — Lecturas de Tarot &amp; Claridad Espiritual con Claudia</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-container" id="app-shell">
+    
+    <!-- Brand Header -->
+    <header class="brand-header" role="banner">
+      <div class="brand-emblem" aria-hidden="true">
+        <span class="emblem-symbol">✦</span>
+        <span class="emblem-star">★</span>
+        <span class="emblem-symbol">✦</span>
+      </div>
+      <h1 class="brand-title">Lumina Umay</h1>
+      <p class="brand-subtitle">Lecturas de Tarot &amp; Claridad Espiritual con Claudia</p>
+      <div class="brand-divider" aria-hidden="true">
+        <span class="divider-line"></span>
+        <span class="divider-gem">◆</span>
+        <span class="divider-line"></span>
+      </div>
+      <p class="brand-description">
+        Bienvenido a tu espacio sagrado de consulta y orientación. Elige el tipo de lectura que resuene con tu momento y recibe claridad profunda para tu camino.
+      </p>
+    </header>
+
+    <main id="main-content">
+
+      <!-- Step 1: Service Tier Selector -->
+      <section class="section-card" id="tier-selection-section" aria-labelledby="tier-section-title">
+        <div class="section-header">
+          <span class="step-badge" aria-hidden="true">Paso 1</span>
+          <h2 class="section-title" id="tier-section-title">Selecciona tu Lectura o Sesión</h2>
+        </div>
+        <p class="section-intro">Elige la modalidad que mejor se adapte a tu situación actual:</p>
+
+        <div class="tier-grid" role="radiogroup" aria-label="Modalidades de Lectura de Tarot">
+          
+          <!-- Tier 1: 1 Carta -->
+          <div class="tier-card active" data-tier="1_carta" tabindex="0" role="radio" aria-checked="true" aria-labelledby="tier-1-title tier-1-price">
+            <div class="tier-card-header">
+              <div class="tier-badge">Respuesta en 24h</div>
+              <input type="radio" name="tier_id" id="tier_1_carta" value="1_carta" checked class="tier-radio" aria-label="Lectura de 1 Carta - $150 MXN">
+            </div>
+            <h3 class="tier-title" id="tier-1-title">1 Carta</h3>
+            <p class="tier-subtitle">Preguntas de Sí o No</p>
+            <p class="tier-details">Ideal para una respuesta puntual y directa a una duda concreta sobre tu camino.</p>
+            <div class="tier-price-box">
+              <span class="tier-price" id="tier-1-price">$150</span>
+              <span class="tier-currency">MXN</span>
+            </div>
+          </div>
+
+          <!-- Tier 2: 3 Cartas -->
+          <div class="tier-card" data-tier="3_cartas" tabindex="0" role="radio" aria-checked="false" aria-labelledby="tier-3-title tier-3-price">
+            <div class="tier-card-header">
+              <div class="tier-badge">Respuesta en 24h</div>
+              <input type="radio" name="tier_id" id="tier_3_cartas" value="3_cartas" class="tier-radio" aria-label="Lectura de 3 Cartas - $350 MXN">
+            </div>
+            <h3 class="tier-title" id="tier-3-title">3 Cartas</h3>
+            <p class="tier-subtitle">Panorama General</p>
+            <p class="tier-details">Explora tu situación general: pasado, energías del presente y consejo del oráculo.</p>
+            <div class="tier-price-box">
+              <span class="tier-price" id="tier-3-price">$350</span>
+              <span class="tier-currency">MXN</span>
+            </div>
+          </div>
+
+          <!-- Tier 3: 5 Cartas -->
+          <div class="tier-card" data-tier="5_cartas" tabindex="0" role="radio" aria-checked="false" aria-labelledby="tier-5-title tier-5-price">
+            <div class="tier-card-header">
+              <div class="tier-badge tier-badge-highlight">Más Completa • 24h</div>
+              <input type="radio" name="tier_id" id="tier_5_cartas" value="5_cartas" class="tier-radio" aria-label="Lectura de 5 Cartas - $500 MXN">
+            </div>
+            <h3 class="tier-title" id="tier-5-title">5 Cartas</h3>
+            <p class="tier-subtitle">Tirada Profunda</p>
+            <p class="tier-details">Análisis exhaustivo de bloqueos, personas involucradas, dinamismo y mejor desenlace.</p>
+            <div class="tier-price-box">
+              <span class="tier-price" id="tier-5-price">$500</span>
+              <span class="tier-currency">MXN</span>
+            </div>
+          </div>
+
+          <!-- Tier 4: Sesión por Llamada -->
+          <div class="tier-card" data-tier="llamada" tabindex="0" role="radio" aria-checked="false" aria-labelledby="tier-call-title tier-call-price">
+            <div class="tier-card-header">
+              <div class="tier-badge tier-badge-call">Sesión en Vivo • 45 min</div>
+              <input type="radio" name="tier_id" id="tier_llamada" value="llamada" class="tier-radio" aria-label="Sesión por Llamada en Vivo - $450 MXN">
+            </div>
+            <h3 class="tier-title" id="tier-call-title">Sesión en Vivo por Llamada</h3>
+            <p class="tier-subtitle">Videollamada 1 a 1 en Directo</p>
+            <p class="tier-details">Consulta en tiempo real de 45 minutos con Claudia para profundizar y dialogar en vivo.</p>
+            <div class="tier-price-box">
+              <span class="tier-price" id="tier-call-price">$450</span>
+              <span class="tier-currency">MXN</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Step 2: Dynamic Consultation Form -->
+      <section class="section-card" id="form-section" aria-labelledby="form-section-title">
+        <div id="form-lectura-body">
+        <form id="form-lectura" class="booking-form" onsubmit="handleLecturaSubmit(event)">
+        <div class="form-body">
+        <div class="section-header">
+          <span class="step-badge" aria-hidden="true">Paso 2</span>
+          <h2 class="section-title" id="form-section-title">Tus Datos &amp; Consulta</h2>
+        </div>
+
+        <!-- Global Error Notification Banner -->
+        <div class="alert-banner alert-error hidden" id="form-error-banner" role="alert" aria-live="polite">
+          <span class="alert-icon" aria-hidden="true">⚠️</span>
+          <span class="alert-message" id="form-error-text">Por favor verifica los campos marcados en rojo.</span>
+        </div>
+
+        <form id="booking-form" novalidate autocomplete="on">
+          
+          <!-- Category Selector -->
+          <div class="form-group" id="group-category">
+            <label for="category" class="form-label">
+              Área o Enfoque de tu Consulta <span class="required-star">*</span>
+            </label>
+            <div class="select-wrapper">
+              <select id="category" name="category" class="form-select" required aria-required="true">
+                <option value="" disabled selected>Selecciona un área...</option>
+                <option value="Amor">Amor y Relaciones de Pareja</option>
+                <option value="Trabajo/Dinero">Trabajo, Carrera y Finanzas</option>
+                <option value="Familia">Familia y Vínculos Cercanos</option>
+                <option value="Otro">Crecimiento Personal, Espiritual u Otro</option>
+              </select>
+            </div>
+            <span class="field-error-text hidden" id="category-error">Por favor selecciona el área de tu consulta.</span>
+          </div>
+
+          <!-- Customer Full Name -->
+          <div class="form-group" id="group-customer-name">
+            <label for="customer_name" class="form-label">
+              Nombre Completo <span class="required-star">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="customer_name" 
+              name="customer_name" 
+              class="form-input" 
+              placeholder="Ej. María Elena Garza" 
+              required 
+              aria-required="true"
+              autocomplete="name"
+              autocapitalize="words"
+            >
+            <span class="field-error-text hidden" id="customer_name-error">Por favor ingresa tu nombre completo (mínimo 2 letras).</span>
+          </div>
+
+          <!-- Customer Email -->
+          <div class="form-group" id="group-customer-email">
+            <label for="customer_email" class="form-label">
+              Correo Electrónico <span class="required-star">*</span>
+            </label>
+            <input 
+              type="email" 
+              id="customer_email" 
+              name="customer_email" 
+              class="form-input" 
+              placeholder="tu-correo@ejemplo.com" 
+              required 
+              aria-required="true"
+              autocomplete="email"
+              inputmode="email"
+            >
+            <span class="form-hint">Aquí recibirás tu lectura grabada o la confirmación y enlace de tu llamada.</span>
+            <span class="field-error-text hidden" id="customer_email-error">Ingresa un correo electrónico válido para recibir tu lectura.</span>
+          </div>
+
+          <!-- Customer Phone (Optional / Backup) -->
+          <div class="form-group" id="group-customer-phone">
+            <label for="customer_phone" class="form-label">
+              Teléfono / WhatsApp <span class="optional-label">(Opcional)</span>
+            </label>
+            <input 
+              type="tel" 
+              id="customer_phone" 
+              name="customer_phone" 
+              class="form-input" 
+              placeholder="Ej. 55 1234 5678" 
+              autocomplete="tel"
+              inputmode="tel"
+            >
+            <span class="form-hint">Número de contacto para avisos o emergencias sobre tu consulta.</span>
+          </div>
+
+          <!-- Customer Birthdate -->
+          <div class="form-group" id="group-customer-birthdate">
+            <label for="customer_birthdate" class="form-label">
+              Fecha de Nacimiento <span class="required-star">*</span>
+            </label>
+            <input 
+              type="date" 
+              id="customer_birthdate" 
+              name="customer_birthdate" 
+              class="form-input" 
+              required 
+              aria-required="true"
+              autocomplete="bday"
+            >
+            <span class="form-hint">Permite a Claudia sintonizar con tu mapa astral y vibración natal.</span>
+            <span class="field-error-text hidden" id="customer_birthdate-error">Ingresa una fecha de nacimiento válida en el pasado (AAAA-MM-DD).</span>
+          </div>
+
+          <!-- Dynamic Field: Involved Names (Visible for 3_cartas and 5_cartas) -->
+          <div class="form-group hidden" id="field-involved-names">
+            <label for="involved_names" class="form-label" id="involved_names_label">
+              Nombre(s) de la(s) Persona(s) Involucrada(s) <span class="optional-label">(Si aplica)</span>
+            </label>
+            <input 
+              type="text" 
+              id="involved_names" 
+              name="involved_names" 
+              class="form-input" 
+              placeholder="Ej. Carlos Méndez"
+              autocomplete="off"
+            >
+            <span class="form-hint">Indica el nombre de la persona sobre quien deseas consultar para una lectura más precisa.</span>
+          </div>
+
+          <!-- Dynamic Field: Core Focus (Required for 5_cartas) -->
+          <div class="form-group hidden" id="field-core-focus">
+            <label for="core_focus" class="form-label">
+              ¿Qué es lo que más deseas saber o descubrir? <span class="required-star">*</span>
+            </label>
+            <textarea 
+              id="core_focus" 
+              name="core_focus" 
+              class="form-textarea" 
+              rows="3" 
+              placeholder="Describe el aspecto central, tu mayor inquietud o el foco prioritario en el que deseas que Claudia profundice..."
+              autocomplete="off"
+            ></textarea>
+            <span class="field-error-text hidden" id="core_focus-error">Por favor especifica qué es lo que más deseas saber para la lectura de 5 cartas.</span>
+          </div>
+
+          <!-- Primary Question / Situation -->
+          <div class="form-group" id="group-question">
+            <label for="question" class="form-label" id="question-label">
+              Tu Pregunta o Consulta (Sí o No) <span class="required-star">*</span>
+            </label>
+            <textarea 
+              id="question" 
+              name="question" 
+              class="form-textarea" 
+              rows="4" 
+              required 
+              aria-required="true"
+              placeholder="Escribe tu pregunta de Sí o No con claridad..."
+              autocomplete="off"
+            ></textarea>
+            <span class="field-error-text hidden" id="question-error">Por favor ingresa tu pregunta o consulta.</span>
+          </div>
+
+          <!-- Turnaround SLA Notice for Async Readings (1, 3, 5 cartas) -->
+          <div class="sla-notice-banner" id="async-sla-banner">
+            <span class="sla-icon" aria-hidden="true">✨</span>
+            <div class="sla-text">
+              <strong>Garantía de Entrega en 24 Horas:</strong>
+              <p>Tu lectura personalizada será grabada y enviada a tu correo dentro de las próximas 24 horas hábiles posteriores a la confirmación de tu pago.</p>
+            </div>
+          </div>
+
+          <!-- Live Call Slot Picker Container (Visible for 'llamada') -->
+          <div class="slot-picker-container hidden" id="slot-picker-section">
+            <div class="slot-picker-header">
+              <span class="slot-header-icon" aria-hidden="true">📅</span>
+              <div>
+                <h3 class="slot-picker-title">Selecciona tu Horario de Llamada</h3>
+                <p class="slot-picker-tz">Zona horaria: <strong>Hora del Centro de México (CDMX / UTC-6)</strong></p>
+              </div>
+            </div>
+
+            <!-- 15-Minute Soft-Lock Banner -->
+            <div class="slot-lock-banner hidden" id="slot-lock-banner" role="status" aria-live="polite">
+              <div class="lock-banner-info">
+                <span class="lock-icon">⏱️</span>
+                <span>Horario apartado temporalmente por: <strong id="slot-lock-timer-text" class="timer-countdown">15:00</strong> min</span>
+              </div>
+              <button type="button" class="btn-release-slot" id="btn-release-lock" title="Liberar este horario">
+                ✕ Cambiar
+              </button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div class="slot-loading hidden" id="slot-loading-spinner">
+              <div class="spinner-gold" aria-hidden="true"></div>
+              <span>Consultando horarios disponibles con Claudia...</span>
+            </div>
+
+            <!-- Empty State -->
+            <div class="slot-empty-state hidden" id="slot-empty-msg">
+              <p>Por el momento no hay horarios disponibles en el calendario. Por favor regresa más tarde o contáctanos.</p>
+            </div>
+
+            <!-- Date Selector Pills -->
+            <div class="slot-dates-scroll" id="slot-dates-container" role="tablist" aria-label="Fechas disponibles">
+              <!-- Dynamically populated date pills -->
+            </div>
+
+            <!-- Time Slots Grid -->
+            <div class="slot-times-grid" id="slot-times-grid" role="group" aria-label="Horarios disponibles para la fecha seleccionada">
+              <!-- Dynamically populated slot buttons -->
+            </div>
+
+            <!-- Hidden input fields to preserve slot hold -->
+            <input type="hidden" id="slot_id" name="slot_id" value="">
+            <input type="hidden" id="lock_token" name="lock_token" value="">
+            <span class="field-error-text hidden" id="slot_id-error">Por favor selecciona y aparta un horario en el calendario para tu llamada.</span>
+          </div>
+
+          <!-- Order Summary Card -->
+          <div class="order-summary-card" id="order-summary-card">
+            <div class="summary-row">
+              <span class="summary-label">Servicio seleccionado:</span>
+              <strong class="summary-value" id="summary-tier-name">Lectura de 1 Carta</strong>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Total a pagar:</span>
+              <strong class="summary-price" id="summary-price">$150 MXN</strong>
+            </div>
+            <div class="summary-note" id="summary-turnaround">
+              ✨ Tu lectura personalizada será grabada y enviada a tu correo dentro de las próximas 24 horas hábiles.
+            </div>
+          </div>
+
+          <!-- Submit CTA Button -->
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="submit-btn">
+              <span class="btn-text" id="submit-btn-text">Continuar al Pago Seguro con Mercado Pago 🔒</span>
+              <span class="btn-spinner hidden" id="submit-spinner">
+                <span class="spinner-gold"></span>
+                <span>Iniciando pago seguro...</span>
+              </span>
+            </button>
+            <p class="secure-badge">
+              <span class="lock-shield" aria-hidden="true">🔒</span>
+              <span>Pago 100% cifrado y protegido por Mercado Pago (Tarjetas de crédito/débito, Transferencia SPEI y Efectivo en OXXO).</span>
+            </p>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- Step 3: Mexican Spanish FAQ Accordion (Replaces WhatsApp CTA) -->
+      <section class="section-card faq-section" id="faq-section" aria-labelledby="faq-section-title">
+        <div class="section-header">
+          <span class="step-badge" aria-hidden="true">Dudas</span>
+          <h2 class="section-title" id="faq-section-title">Preguntas Frecuentes</h2>
+        </div>
+        <p class="section-intro">Resolvemos tus dudas antes de iniciar tu lectura con Claudia:</p>
+
+        <div class="faq-accordion" id="faq-accordion-container">
+          
+          <!-- Q1 -->
+          <details class="faq-item" id="faq-1">
+            <summary class="faq-summary">
+              <span class="faq-question">¿Cómo recibo mi lectura?</span>
+              <span class="faq-icon" aria-hidden="true">▾</span>
+            </summary>
+            <div class="faq-answer">
+              <p>Recibirás tu lectura directamente en tu correo electrónico con un documento detallado y audio con la interpretación profunda de las cartas, su simbología y las respuestas a tu situación.</p>
+            </div>
+          </details>
+
+          <!-- Q2 -->
+          <details class="faq-item" id="faq-2">
+            <summary class="faq-summary">
+              <span class="faq-question">¿Cuánto tarda en llegar la respuesta?</span>
+              <span class="faq-icon" aria-hidden="true">▾</span>
+            </summary>
+            <div class="faq-answer">
+              <p>Para todas las lecturas de cartas (1, 3 y 5 cartas), el plazo garantizado de entrega es de un máximo de <strong>24 horas</strong> a partir de la confirmación de tu pago en Mercado Pago.</p>
+            </div>
+          </details>
+
+          <!-- Q3 -->
+          <details class="faq-item" id="faq-3">
+            <summary class="faq-summary">
+              <span class="faq-question">¿Qué pasa si no puedo asistir a mi llamada agendada?</span>
+              <span class="faq-icon" aria-hidden="true">▾</span>
+            </summary>
+            <div class="faq-answer">
+              <p>Si surge algún imprevisto, puedes reprogramar tu sesión avisándonos con al menos <strong>4 horas de anticipación</strong> enviando un mensaje al correo de confirmación. Con gusto buscaremos un nuevo horario disponible en el calendario para ti.</p>
+            </div>
+          </details>
+
+          <!-- Q4 -->
+          <details class="faq-item" id="faq-4">
+            <summary class="faq-summary">
+              <span class="faq-question">¿Los pagos son seguros?</span>
+              <span class="faq-icon" aria-hidden="true">▾</span>
+            </summary>
+            <div class="faq-answer">
+              <p>Totalmente. Todos los pagos se procesan de manera cifrada y 100% segura a través de <strong>Mercado Pago</strong>, la plataforma líder en México. Puedes pagar con tarjeta de crédito o débito (Visa, Mastercard, AMEX), transferencia electrónica SPEI o en efectivo en tiendas OXXO.</p>
+            </div>
+          </details>
+
+          <!-- Q5 -->
+          <details class="faq-item" id="faq-5">
+            <summary class="faq-summary">
+              <span class="faq-question">¿Puedo cambiar mi pregunta después de pagar?</span>
+              <span class="faq-icon" aria-hidden="true">▾</span>
+            </summary>
+            <div class="faq-answer">
+              <p>Una vez aprobado tu pago, Claudia comienza de inmediato la preparación energética de tu consulta. Si necesitas hacer una corrección o ajuste urgente a tu pregunta, escríbenos dentro de las primeras <strong>2 horas posteriores al pago</strong> respondiendo a tu correo de confirmación.</p>
+            </div>
+          </details>
+
+          <!-- Q6 -->
+          <details class="faq-item" id="faq-6">
+            <summary class="faq-summary">
+              <span class="faq-question">¿Qué diferencia hay entre las lecturas de 1, 3 y 5 cartas?</span>
+              <span class="faq-icon" aria-hidden="true">▾</span>
+            </summary>
+            <div class="faq-answer">
+              <p>La lectura de <strong>1 carta</strong> está diseñada para respuestas concretas de Sí o No. La de <strong>3 cartas</strong> ofrece un panorama general evaluando pasado reciente, situación actual y el consejo del tarot. La de <strong>5 cartas</strong> es una tirada profunda que analiza raíces ocultas, dinámicas con personas involucradas, obstáculos y el mejor desenlace posible.</p>
+            </div>
+          </details>
+
+          <!-- Q7 -->
+          <details class="faq-item" id="faq-7">
+            <summary class="faq-summary">
+              <span class="faq-question">¿Cómo me preparo para mi sesión por llamada?</span>
+              <span class="faq-icon" aria-hidden="true">▾</span>
+            </summary>
+            <div class="faq-answer">
+              <p>Te sugerimos buscar un espacio privado, silencioso y tranquilo donde puedas hablar con comodidad y sin interrupciones. Conéctate 5 minutos antes de la hora acordada, ten a la mano agua y libreta si deseas anotar mensajes clave, y mantén tu mente y corazón receptivos.</p>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Post-Payment Status Confirmation Modal -->
+    <div class="modal-backdrop hidden" id="confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-container">
+        
+        <!-- Polling State -->
+        <div class="modal-state" id="confirmation-polling">
+          <div class="spinner-gold spinner-lg" aria-hidden="true"></div>
+          <h2 class="modal-title" id="modal-polling-title">Verificando tu Pago...</h2>
+          <p class="modal-subtitle">Estamos sincronizando la confirmación de tu pago con Mercado Pago. Esto solo tomará unos segundos.</p>
+          <div class="polling-dots" aria-hidden="true">
+            <span>●</span><span>●</span><span>●</span>
+          </div>
+        </div>
+
+        <!-- Success State: Async Reading -->
+        <div class="modal-state hidden" id="confirmation-success-async">
+          <div class="modal-icon-badge">✨</div>
+          <h2 class="modal-title" id="modal-title">¡Pago Confirmado con Éxito!</h2>
+          <p class="modal-order-number">Orden: <strong id="async-order-id">#ORD-XXXX</strong></p>
+          
+          <div class="confirmation-box">
+            <div class="guarantee-header">
+              <span class="star-icon">★</span>
+              <strong>Garantía de Entrega en 24 Horas</strong>
+            </div>
+            <p id="async-turnaround-text">
+              Claudia revisará tu consulta con total dedicación. Tu lectura personalizada será grabada y enviada directamente a tu correo electrónico (<span id="async-customer-email" class="highlight-email">tu correo</span>) dentro de las próximas 24 horas hábiles.
+            </p>
+          </div>
+
+          <div class="order-recap-box">
+            <div class="recap-row">
+              <span>Modalidad:</span>
+              <strong id="async-tier-name">Lectura de 3 Cartas</strong>
+            </div>
+            <div class="recap-row">
+              <span>Área:</span>
+              <strong id="async-category-name">Amor y Relaciones</strong>
+            </div>
+            <div class="recap-row">
+              <span>Monto pagado:</span>
+              <strong id="async-amount-paid" class="gold-text">$350 MXN</strong>
+            </div>
+          </div>
+
+          <p class="modal-note">
+            Hemos enviado un comprobante a tu correo. Te sugerimos revisar también tu carpeta de correo no deseado o spam.
+          </p>
+
+          <button type="button" class="btn-primary modal-close-btn" id="btn-close-async-modal">
+            Entendido, volver al inicio
+          </button>
+        </div>
+
+        <!-- Success State: Live Call Session -->
+        <div class="modal-state hidden" id="confirmation-success-call">
+          <div class="modal-icon-badge">📞</div>
+          <h2 class="modal-title">¡Cita de Llamada Confirmada!</h2>
+          <p class="modal-order-number">Orden: <strong id="call-order-id">#ORD-XXXX</strong></p>
+          
+          <div class="appointment-card">
+            <div class="appointment-header">
+              <span class="cal-icon">📅</span>
+              <strong>Tu Sesión en Vivo con Claudia</strong>
+            </div>
+            <div class="appointment-detail">
+              <span class="appt-label">Fecha:</span>
+              <strong id="call-slot-date" class="appt-value">Jueves, 20 de Agosto</strong>
+            </div>
+            <div class="appointment-detail">
+              <span class="appt-label">Horario:</span>
+              <strong id="call-slot-time" class="appt-value">16:00 - 16:45 hrs (Hora CDMX / UTC-6)</strong>
+            </div>
+          </div>
+
+          <div class="guidance-box">
+            <h4>💡 Recomendaciones para tu sesión:</h4>
+            <ul>
+              <li>Claudia se comunicará puntualmente contigo por videollamada / llamada en el horario acordado.</li>
+              <li>Ubícate en un espacio tranquilo y privado con buena conexión a internet 5 minutos antes.</li>
+              <li>Si requieres reprogramar tu cita, por favor avísanos con al menos 4 horas de anticipación.</li>
+            </ul>
+          </div>
+
+          <button type="button" class="btn-primary modal-close-btn" id="btn-close-call-modal">
+            Entendido, volver al inicio
+          </button>
+        </div>
+
+        <!-- Overbooked / Rescheduling Needed State -->
+        <div class="modal-state hidden" id="confirmation-overbooked">
+          <div class="modal-icon-badge modal-icon-warning">⚠️</div>
+          <h2 class="modal-title">Pago Recibido — Reprogramación Requerida</h2>
+          <p class="modal-order-number">Orden: <strong id="overbooked-order-id">#ORD-XXXX</strong></p>
+          
+          <div class="warning-box">
+            <p>Tu pago fue recibido exitosamente por Mercado Pago, pero el horario seleccionado expiró justo antes del pago y fue apartado por otra persona.</p>
+            <p><strong>¡No te preocupes!</strong> Tu lugar está 100% asegurado. Claudia se pondrá en contacto contigo de inmediato a tu correo para acordar un horario preferencial.</p>
+          </div>
+
+          <button type="button" class="btn-primary modal-close-btn" id="btn-close-overbooked-modal">
+            Entendido, volver al inicio
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Spiritual Footer -->
+    <footer class="brand-footer" role="contentinfo">
+      <div class="footer-blessing">
+        <p class="blessing-quote">"Con luz, gratitud y bendiciones — Claudia"</p>
+        <span class="blessing-ornament" aria-hidden="true">✦ ✦ ✦</span>
+      </div>
+      <p class="footer-legal">
+        Lumina Umay es un espacio de orientación espiritual, autoconocimiento y tarot terapéutico. Las lecturas son herramientas reflexivas de introspección y bienestar personal.
+      </p>
+      <p class="footer-copyright">
+        © 2026 Lumina Umay. Todos los derechos reservados.
+      </p>
+    </footer>
+
+  </div>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>

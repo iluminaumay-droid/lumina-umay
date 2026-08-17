@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nueva Consulta Pagada — Lumina Umay</title>
+  <style>
+    :root {
+      --teal: #0d2b2a;
+      --teal-deep: #081d1c;
+      --gold: #d4af37;
+      --gold-light: #e8c85a;
+      --cream: #fbf8f2;
+      --text-dark: #1f2937;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fbf8f2;
+      font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .wrapper {
+      width: 100%;
+      background-color: #fbf8f2;
+      padding: 30px 15px;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(13, 43, 42, 0.08);
+      border: 1px solid #eedec3;
+    }
+    .header {
+      background: linear-gradient(135deg, #0d2b2a 0%, #081d1c 100%);
+      padding: 36px 24px 28px;
+      text-align: center;
+      border-bottom: 3px solid #d4af37;
+    }
+    .header-logo {
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #d4af37;
+      text-transform: uppercase;
+      margin: 0 0 6px 0;
+    }
+    .header-subtitle {
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: #fbf8f2;
+      text-transform: uppercase;
+      margin: 0;
+      opacity: 0.9;
+    }
+    .content {
+      padding: 32px 28px;
+    }
+    .order-badge-box {
+      background-color: #fbf8f2;
+      border: 1px dashed #d4af37;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+    }
+    .order-meta-grid {
+      display: table;
+      width: 100%;
+    }
+    .order-meta-row {
+      display: table-row;
+    }
+    .order-meta-label {
+      display: table-cell;
+      font-size: 13px;
+      color: #6b7280;
+      padding: 4px 8px 4px 0;
+      font-weight: 500;
+    }
+    .order-meta-value {
+      display: table-cell;
+      font-size: 13px;
+      color: #0d2b2a;
+      font-weight: 600;
+      text-align: right;
+      padding: 4px 0 4px 8px;
+    }
+    .section-card {
+      background-color: #ffffff;
+      border: 1px solid #ede8df;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #0d2b2a;
+      margin: 0 0 14px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eedec3;
+      display: flex;
+      align-items: center;
+    }
+    .field-row {
+      margin-bottom: 12px;
+    }
+    .field-row:last-child {
+      margin-bottom: 0;
+    }
+    .field-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #78716c;
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+    .field-value {
+      font-size: 15px;
+      color: #1f2937;
+      font-weight: 500;
+      word-break: break-word;
+    }
+    .highlight-box {
+      background-color: #fbf8f2;
+      border-left: 4px solid #d4af37;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 14px;
+    }
+    .call-box {
+      background: linear-gradient(135deg, rgba(13, 43, 42, 0.05) 0%, rgba(212, 175, 55, 0.1) 100%);
+      border: 1px solid #d4af37;
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-top: 20px;
+    }
+    .sla-banner {
+      background-color: #f0f7f6;
+      border-left: 4px solid #0d2b2a;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #0d2b2a;
+    }
+    .footer {
+      background-color: #fbf8f2;
+      border-top: 1px solid #eedec3;
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: #78716c;
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0d2b2a;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-logo">LUMINA UMAY</div>
+        <div class="header-subtitle">Nueva Consulta Pagada</div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="content">
+        <!-- ORDER METADATA -->
+        <div class="order-badge-box">
+          <div class="order-meta-grid">
+            <div class="order-meta-row">
+              <div class="order-meta-label">ID de Orden:</div>
+              <div class="order-meta-value">{{order_id}}</div>
+            </div>
+            <div class="order-meta-row">
+              <div class="order-meta-label">ID Pago Mercado Pago:</div>
+              <div class="order-meta-value">{{mp_payment_id}}</div>
+            </div>
+            <div class="order-meta-row">
+              <div class="order-meta-label">Monto Recibido:</div>
+              <div class="order-meta-value">${{amount_mxn}} MXN</div>
+            </div>
+            <div class="order-meta-row">
+              <div class="order-meta-label">Fecha de Confirmación:</div>
+              <div class="order-meta-value">{{date}}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONSULTANTE -->
+        <div class="section-card">
+          <div class="section-title">Datos del Consultante</div>
+          <div class="field-row">
+            <div class="field-label">Nombre Completo</div>
+            <div class="field-value">{{customer_name}}</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Correo Electrónico</div>
+            <div class="field-value">{{customer_email}}</div>
+          </div>
+          {{#if has_phone}}
+          <div class="field-row">
+            <div class="field-label">Teléfono</div>
+            <div class="field-value">{{customer_phone}}</div>
+          </div>
+          {{/if}}
+          <div class="field-row">
+            <div class="field-label">Fecha de Nacimiento</div>
+            <div class="field-value">{{customer_birthdate}}</div>
+          </div>
+        </div>
+
+        <!-- SERVICIO -->
+        <div class="section-card">
+          <div class="section-title">Detalles de la Consulta</div>
+          <div class="field-row">
+            <div class="field-label">Servicio Contratado</div>
+            <div class="field-value"><strong>{{tier_name}}</strong> (${{amount_mxn}} MXN)</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Categoría</div>
+            <div class="field-value">{{category}}</div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Pregunta o Situación</div>
+            <div class="highlight-box">{{question}}</div>
+          </div>
+
+          {{#if has_involved_names}}
+          <div class="field-row" style="margin-top: 14px;">
+            <div class="field-label">Personas Involucradas</div>
+            <div class="field-value">{{involved_names}}</div>
+          </div>
+          {{/if}}
+
+          {{#if has_core_focus}}
+          <div class="field-row" style="margin-top: 14px;">
+            <div class="field-label">Qué es lo que más deseas saber (Enfoque)</div>
+            <div class="highlight-box">{{core_focus}}</div>
+          </div>
+          {{/if}}
+        </div>
+
+        <!-- CALL OR ASYNC SLA -->
+        {{#if is_call}}
+        <div class="call-box">
+          <div class="section-title" style="color: #0d2b2a; border-bottom-color: #d4af37;">Horario de Llamada Reservado</div>
+          <div class="field-row">
+            <div class="field-label">Fecha de la Sesión</div>
+            <div class="field-value"><strong>{{slot_date}}</strong></div>
+          </div>
+          <div class="field-row">
+            <div class="field-label">Horario (Hora de la Ciudad de México)</div>
+            <div class="field-value"><strong>{{slot_time_start}} - {{slot_time_end}} hrs (CDMX)</strong></div>
+          </div>
+        </div>
+        {{else}}
+        <div class="sla-banner">
+          <strong>Compromiso de Entrega Asíncrona:</strong> Recordatorio para Claudia: la lectura debe ser enviada al correo del consultante en un plazo máximo de <strong>24 horas</strong>.
+        </div>
+        {{/if}}
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <div class="footer-brand">Lumina Umay</div>
+        <div>Portal de Lecturas, Tarot y Sabiduría Ancestral</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
