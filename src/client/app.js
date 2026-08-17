@@ -64,17 +64,24 @@ function navigateTo(screenId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Update Navbar Active State
-  const navBtns = document.querySelectorAll('.nav-btn');
+  // Update Navbar & Desktop Nav Active State
+  const navBtns = document.querySelectorAll('.nav-btn, .d-nav-link');
   navBtns.forEach(b => b.classList.remove('active'));
 
-  if (screenId === 'screen-inicio') document.getElementById('nav-inicio')?.classList.add('active');
-  else if (screenId === 'screen-lectura') document.getElementById('nav-lectura')?.classList.add('active');
-  else if (screenId === 'screen-sesion') {
+  if (screenId === 'screen-inicio') {
+    document.getElementById('nav-inicio')?.classList.add('active');
+    document.getElementById('d-nav-inicio')?.classList.add('active');
+  } else if (screenId === 'screen-lectura') {
+    document.getElementById('nav-lectura')?.classList.add('active');
+    document.getElementById('d-nav-lectura')?.classList.add('active');
+  } else if (screenId === 'screen-sesion') {
     document.getElementById('nav-sesion')?.classList.add('active');
+    document.getElementById('d-nav-sesion')?.classList.add('active');
     loadSlots();
+  } else if (screenId === 'screen-sobre') {
+    document.getElementById('nav-sobre')?.classList.add('active');
+    document.getElementById('d-nav-sobre')?.classList.add('active');
   }
-  else if (screenId === 'screen-sobre') document.getElementById('nav-sobre')?.classList.add('active');
 }
 window.navigateTo = navigateTo;
 
@@ -473,6 +480,13 @@ window.closeModalAndGoHome = closeModalAndGoHome;
 
 // ── INITIALIZE EVENT LISTENERS (UNOBTRUSIVE JS) ──
 document.addEventListener('DOMContentLoaded', () => {
+  // Desktop Top Navigation Links
+  document.getElementById('btn-header-home')?.addEventListener('click', () => navigateTo('screen-inicio'));
+  document.getElementById('d-nav-inicio')?.addEventListener('click', () => navigateTo('screen-inicio'));
+  document.getElementById('d-nav-lectura')?.addEventListener('click', () => navigateTo('screen-lectura'));
+  document.getElementById('d-nav-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
+  document.getElementById('d-nav-sobre')?.addEventListener('click', () => navigateTo('screen-sobre'));
+
   // Service Cards on Inicio
   document.getElementById('btn-goto-lectura')?.addEventListener('click', () => navigateTo('screen-lectura'));
   document.getElementById('btn-goto-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
