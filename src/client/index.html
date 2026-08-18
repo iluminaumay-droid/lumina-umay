@@ -2,502 +2,645 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#1a3a3a">
-  <title>Lumina Umay — Lecturas de Tarot &amp; Claridad Espiritual con Claudia</title>
+  <meta name="theme-color" content="#0d2b2a">
+  <meta name="description" content="Lumina Umay — Lecturas de tarot terapéutico y claridad espiritual personalizadas por Claudia. Respuesta garantizada en 24 horas y sesiones en vivo.">
+  <title>Lumina Umay — Lecturas de Tarot &amp; Claridad Espiritual</title>
   
+  <!-- Modern Typography: Cormorant Garamond & Jost -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
-<div class="site-wrapper">
+<div class="site-shell">
 
-  <!-- ══ DESKTOP TOP HEADER ══ -->
-  <header class="desktop-header" role="banner">
-    <div class="header-container">
-      <div class="brand-badge" id="btn-header-home" role="button" tabindex="0">
-        <img class="header-logo" src="/images/logo.jpg" alt="Lumina Umay Logo">
-        <div class="brand-text">
-          <span class="brand-title-top">LUMINA UMAY</span>
-          <span class="brand-tag-top">Tarot Terapéutico &amp; Claridad</span>
+  <!-- ═════════════════════════════════════════════════════════════
+       DESKTOP TOP NAVIGATION BAR (SLEEK GLASSMORPHIC)
+  ═════════════════════════════════════════════════════════════ -->
+  <header class="desktop-navbar" role="banner">
+    <div class="nav-inner">
+      <div class="brand-link" id="btn-header-home" role="button" tabindex="0" aria-label="Ir al inicio">
+        <img class="brand-avatar" src="/images/logo.jpg" alt="Lumina Umay">
+        <div class="brand-info">
+          <span class="brand-name">LUMINA UMAY</span>
+          <span class="brand-subtitle">Tarot &amp; Claridad Espiritual</span>
         </div>
       </div>
 
-      <nav class="desktop-nav" role="navigation" aria-label="Navegación de escritorio">
-        <button class="d-nav-link active" id="d-nav-inicio">Inicio</button>
-        <button class="d-nav-link" id="d-nav-lectura">Lecturas de Tarot</button>
-        <button class="d-nav-link" id="d-nav-sesion">Sesión en Vivo</button>
-        <button class="d-nav-link" id="d-nav-sobre">Sobre Claudia &amp; FAQ</button>
+      <nav class="nav-menu" role="navigation" aria-label="Navegación principal">
+        <button class="nav-item active" id="d-nav-inicio">Inicio</button>
+        <button class="nav-item" id="d-nav-lectura">Lecturas de Tarot</button>
+        <button class="nav-item" id="d-nav-sesion">Sesión en Vivo</button>
+        <button class="nav-item" id="d-nav-sobre">Sobre Claudia &amp; FAQ</button>
       </nav>
 
-      <a href="tel:+528701713372" class="header-whatsapp-btn" aria-label="Contacto directo +52 870 171 3372">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2c0-4.97-4.03-9-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"/></svg>
-        <span>+52 870 171 3372</span>
-      </a>
+      <div class="nav-actions">
+        <a href="tel:+528701713372" class="phone-action-btn" aria-label="Llamar o contactar al +52 870 171 3372">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2c0-4.97-4.03-9-9-9v2c3.87 0 7 3.13 7 7zm-4 0h2c0-2.76-2.24-5-5-5v2c1.66 0 3 1.34 3 3z"/></svg>
+          <span>+52 870 171 3372</span>
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- ══ MAIN APP SHELL ══ -->
-  <main class="app app-container" id="main-app">
+  <!-- ═════════════════════════════════════════════════════════════
+       MAIN VIEWPORT CONTAINER
+  ═════════════════════════════════════════════════════════════ -->
+  <main class="main-content" id="main-content">
 
-    <!-- ══ SCREEN 1: INICIO ══ -->
-    <section id="screen-inicio" class="screen active" aria-labelledby="hero-title">
-      <div class="hero">
-        <div class="hero-image-wrap">
-          <img class="hero-img" src="/images/hero.jpg" alt="Lumina Umay La Emperatriz Tarot Místico">
-        </div>
-        <div class="hero-overlay"></div>
-        <div class="hero-text">
-          <div class="hero-badge">TAROT &amp; ORIENTACIÓN ESPIRITUAL</div>
-          <h1 class="hero-title" id="hero-title">Lumina Umay</h1>
-          <p class="hero-tagline">Claridad, Introspección y Paz para tu Camino</p>
-          <div class="gold-rule" aria-hidden="true"></div>
+    <!-- ══ SCREEN 1: INICIO (HOME / SANCTUARY) ══ -->
+    <section id="screen-inicio" class="screen active" aria-labelledby="hero-main-title">
+      
+      <!-- HERO SHOWCASE -->
+      <div class="hero-section">
+        <div class="hero-container">
+          
+          <!-- Left / Mobile Main: Content -->
+          <div class="hero-content">
+            <div class="hero-pill">
+              <span class="pill-sparkle" aria-hidden="true">✦</span>
+              <span>Tarot Terapéutico &amp; Guía Espiritual</span>
+            </div>
+            
+            <h1 class="hero-main-title" id="hero-main-title">Lumina Umay</h1>
+            <p class="hero-subtitle">Claridad, Introspección y Paz para tu Camino</p>
+            
+            <p class="hero-description">
+              Respuestas profundas y personalizadas para disipar dudas en el amor, trabajo y decisiones de vida. Consulta con Claudia de forma privada y en sintonía con tu energía.
+            </p>
+
+            <div class="hero-cta-group">
+              <button type="button" class="btn-primary-hero" id="btn-hero-lectura">
+                <span>Elegir mi Lectura</span>
+                <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              </button>
+              <button type="button" class="btn-secondary-hero" id="btn-hero-sesion">
+                <span>Sesión en Vivo (45m)</span>
+              </button>
+            </div>
+
+            <!-- Trust Features Row -->
+            <div class="hero-trust-bar">
+              <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">⏳</span>
+                <span>Entrega en 24 Horas</span>
+              </div>
+              <div class="trust-dot" aria-hidden="true">•</div>
+              <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">🔒</span>
+                <span>Pago 100% Seguro</span>
+              </div>
+              <div class="trust-dot" aria-hidden="true">•</div>
+              <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">✨</span>
+                <span>100% Confidencial</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Tarot Card Showcase Frame -->
+          <div class="hero-visual">
+            <div class="card-frame">
+              <div class="card-glow" aria-hidden="true"></div>
+              <img class="card-artwork" src="/images/hero.jpg" alt="Lumina Umay La Emperatriz Tarot">
+              <div class="card-caption">
+                <span class="card-tag">Arquetipo Regente</span>
+                <span class="card-name">III • The Empress</span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="services">
-        <div class="section-label-box">
-          <span class="section-label">Modalidades de Consulta</span>
-          <span class="section-sublabel">Selecciona la lectura que resuene con tu momento</span>
+      <!-- SERVICES SECTION -->
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-eyebrow">Modalidades de Consulta</span>
+          <h2 class="section-title">Elige la Guía que Necesitas</h2>
+          <p class="section-desc">Selecciona la opción que mejor se adapte a tu duda o momento actual.</p>
         </div>
 
-        <!-- Service Cards Grid -->
         <div class="services-grid">
+          
           <!-- Service Card 1: Lectura de Tarot -->
-          <div class="service-card" id="btn-goto-lectura" tabindex="0" role="button" aria-label="Lectura de Tarot desde $150 MXN">
-            <div class="service-icon-box">
-              <span class="service-icon" aria-hidden="true">🔮</span>
+          <article class="service-box" id="btn-goto-lectura" tabindex="0" role="button" aria-label="Lectura de Tarot desde $150 MXN">
+            <div class="service-box-glow" aria-hidden="true"></div>
+            <div class="service-header">
+              <div class="service-icon-wrap" aria-hidden="true">🔮</div>
+              <span class="service-badge">Respuesta en 24h</span>
             </div>
-            <div class="service-info">
-              <div class="service-tier-badge">Respuesta en 24h</div>
-              <h2 class="service-name">Lectura de Tarot</h2>
-              <p class="service-desc">Tiradas personalizadas (1, 3 o 5 cartas) grabadas e interpretadas en profundidad para ti.</p>
-              <div class="service-price-row">
-                <span class="service-price">Desde $150 MXN</span>
-                <span class="service-arrow" aria-hidden="true">›</span>
+            
+            <h3 class="service-title">Lecturas de Tarot</h3>
+            <p class="service-summary">
+              Tirada personalizada a distancia enviada en audio/texto detallado a tu correo dentro de las próximas 24 horas.
+            </p>
+
+            <ul class="service-features">
+              <li><span>✦</span> 1 Carta ($150 MXN) — Respuesta puntual</li>
+              <li><span>✦</span> 3 Cartas ($350 MXN) — Pasado, presente y consejo</li>
+              <li><span>✦</span> 5 Cartas ($500 MXN) — Análisis profundo y desenlace</li>
+            </ul>
+
+            <div class="service-footer">
+              <div class="service-pricing">
+                <span class="price-label">Inversión</span>
+                <span class="price-value">Desde $150 MXN</span>
+              </div>
+              <div class="service-action-pill">
+                <span>Elegir Tirada</span>
+                <span class="action-arrow" aria-hidden="true">›</span>
               </div>
             </div>
-          </div>
+          </article>
 
           <!-- Service Card 2: Sesión por Llamada -->
-          <div class="service-card" id="btn-goto-sesion" tabindex="0" role="button" aria-label="Sesión por Llamada $450 MXN">
-            <div class="service-icon-box">
-              <span class="service-icon" aria-hidden="true">🌙</span>
+          <article class="service-box service-box-featured" id="btn-goto-sesion" tabindex="0" role="button" aria-label="Sesión por Llamada $450 MXN">
+            <div class="service-box-glow" aria-hidden="true"></div>
+            <div class="service-header">
+              <div class="service-icon-wrap" aria-hidden="true">🌙</div>
+              <span class="service-badge badge-gold">En Vivo • 45 Minutos</span>
             </div>
-            <div class="service-info">
-              <div class="service-tier-badge service-badge-call">En Vivo • 45 min</div>
-              <h2 class="service-name">Sesión por Llamada</h2>
-              <p class="service-desc">45 minutos en vivo 1 a 1 con Claudia. Tirada completa, preguntas ilimitadas y guía directa.</p>
-              <div class="service-price-row">
-                <span class="service-price">$450 MXN</span>
-                <span class="service-arrow" aria-hidden="true">›</span>
+            
+            <h3 class="service-title">Sesión por Llamada</h3>
+            <p class="service-summary">
+              45 minutos en vivo 1 a 1 con Claudia. Tirada completa, preguntas y respuestas directas con orientación en tiempo real.
+            </p>
+
+            <ul class="service-features">
+              <li><span>✦</span> Diálogo fluido y privado en tiempo real</li>
+              <li><span>✦</span> Preguntas ilimitadas durante los 45 minutos</li>
+              <li><span>✦</span> Elige tu horario disponible en el calendario</li>
+            </ul>
+
+            <div class="service-footer">
+              <div class="service-pricing">
+                <span class="price-label">Inversión</span>
+                <span class="price-value">$450 MXN</span>
+              </div>
+              <div class="service-action-pill pill-gold">
+                <span>Agendar Horario</span>
+                <span class="action-arrow" aria-hidden="true">›</span>
               </div>
             </div>
-          </div>
+          </article>
+
         </div>
 
-        <!-- Trust & Contact Highlight Card -->
-        <div class="support-banner">
-          <div class="support-content">
-            <span class="support-icon">💬</span>
-            <div class="support-text">
-              <strong>Atención &amp; Dudas Directas</strong>
-              <p>Contacto directo para dudas o consultas: <a href="tel:+528701713372" class="wa-link">+52 870 171 3372</a></p>
-            </div>
+        <!-- Direct Contact Banner -->
+        <div class="support-card">
+          <div class="support-icon-circle" aria-hidden="true">💬</div>
+          <div class="support-details">
+            <span class="support-title">¿Tienes preguntas antes o después de agendar?</span>
+            <p class="support-subtitle">Claudia y su equipo te atienden con gusto por llamada o mensaje:</p>
           </div>
+          <a href="tel:+528701713372" class="support-tel-btn">
+            <span>+52 870 171 3372</span>
+          </a>
         </div>
 
         <!-- Spiritual blessing quote -->
-        <div class="intro-blessing">
-          <p class="intro-quote">"Con luz, gratitud y bendiciones — Claudia"</p>
-          <span class="blessing-ornament" aria-hidden="true">✦ ✦ ✦</span>
+        <div class="blessing-footer">
+          <p class="blessing-text">"Con luz, gratitud y bendiciones — Claudia"</p>
+          <span class="blessing-stars" aria-hidden="true">✦ ✦ ✦</span>
         </div>
+
       </div>
     </section>
 
     <!-- ══ SCREEN 2: LECTURA (ASYNC 1, 3, 5 CARTAS) ══ -->
-    <section id="screen-lectura" class="screen" aria-labelledby="lectura-title">
-      <button class="back-btn" id="btn-back-lectura" aria-label="Volver al inicio">‹</button>
+    <section id="screen-lectura" class="screen" aria-labelledby="lectura-main-title">
+      <div class="form-wrapper">
+        
+        <button class="back-link-btn" id="btn-back-lectura" type="button" aria-label="Volver al inicio">
+          <span aria-hidden="true">‹</span>
+          <span>Volver al Inicio</span>
+        </button>
 
-      <div class="form-screen">
-        <div class="form-hero">
-          <span class="form-emoji" aria-hidden="true">🔮</span>
-          <h2 class="form-title" id="lectura-title">Lectura de Tarot</h2>
-          <p class="form-subtitle">Selecciona el número de cartas y recibe tu lectura grabada en menos de 24 horas.</p>
+        <div class="form-card">
+          
+          <div class="form-header-box">
+            <div class="form-icon-emblem" aria-hidden="true">🔮</div>
+            <h2 class="form-main-title" id="lectura-main-title">Lectura de Tarot</h2>
+            <p class="form-intro-desc">
+              Selecciona la modalidad de tu tirada y completa los datos de tu consulta. Tu lectura será realizada con absoluta dedicación y enviada a tu correo dentro de 24 horas.
+            </p>
 
-          <!-- TIER SELECTOR TABS -->
-          <div class="tier-selector" role="tablist" aria-label="Opciones de tiradas">
-            <div class="tier-tab active" id="tab-1_carta" data-tier="1_carta" role="tab" aria-selected="true" tabindex="0">
-              <span class="tier-tab-badge">Puntual</span>
-              <span class="tier-tab-name">1 Carta</span>
-              <span class="tier-tab-price">$150 MXN</span>
+            <!-- TIER SELECTOR SEGMENTS -->
+            <div class="tier-segment-control" role="tablist" aria-label="Selector de modalidad de cartas">
+              <button type="button" class="tier-segment-btn active" id="tab-1_carta" data-tier="1_carta" role="tab" aria-selected="true">
+                <span class="tier-badge-micro">Puntual</span>
+                <span class="tier-name-label">1 Carta</span>
+                <span class="tier-price-label">$150 MXN</span>
+              </button>
+              <button type="button" class="tier-segment-btn" id="tab-3_cartas" data-tier="3_cartas" role="tab" aria-selected="false">
+                <span class="tier-badge-micro">Panorama</span>
+                <span class="tier-name-label">3 Cartas</span>
+                <span class="tier-price-label">$350 MXN</span>
+              </button>
+              <button type="button" class="tier-segment-btn" id="tab-5_cartas" data-tier="5_cartas" role="tab" aria-selected="false">
+                <span class="tier-badge-micro micro-gold">Completa</span>
+                <span class="tier-name-label">5 Cartas</span>
+                <span class="tier-price-label">$500 MXN</span>
+              </button>
             </div>
-            <div class="tier-tab" id="tab-3_cartas" data-tier="3_cartas" role="tab" aria-selected="false" tabindex="0">
-              <span class="tier-tab-badge">Panorama</span>
-              <span class="tier-tab-name">3 Cartas</span>
-              <span class="tier-tab-price">$350 MXN</span>
+
+            <!-- Dynamic Tier Explanation -->
+            <div class="tier-feature-card" id="tier-feature-card">
+              <span class="tier-feature-title" id="tier-feature-title">Lectura de 1 Carta ($150 MXN)</span>
+              <p class="tier-feature-desc" id="tier-feature-desc">
+                Ideal para responder con precisión una pregunta directa o tomar una decisión puntual entre dos caminos.
+              </p>
             </div>
-            <div class="tier-tab" id="tab-5_cartas" data-tier="5_cartas" role="tab" aria-selected="false" tabindex="0">
-              <span class="tier-tab-badge tier-badge-gold">Completa</span>
-              <span class="tier-tab-name">5 Cartas</span>
-              <span class="tier-tab-price">$500 MXN</span>
-            </div>
+
+            <div class="price-chip-highlight" id="lectura-price-badge">$150 MXN</div>
           </div>
 
-          <div class="form-price-badge" id="lectura-price-badge">$150 MXN</div>
-        </div>
-
-        <form id="booking-form" class="booking-form">
-          <!-- Hidden Tier Indicator for tests/form state -->
-          <input type="hidden" name="tier_id" id="tier_id_input" value="1_carta">
-          <div class="form-body">
+          <!-- BOOKING FORM -->
+          <form id="booking-form" class="clean-form">
+            <!-- Hidden Tier Indicator for tests/form state -->
+            <input type="hidden" name="tier_id" id="tier_id_input" value="1_carta">
             
-            <div class="form-grid-2col">
+            <div class="form-fields-grid">
+              
               <!-- Full Name -->
-              <div class="field-group">
-                <label for="customer_name" class="field-label">
-                  Tu Nombre Completo <span class="required">*</span>
+              <div class="input-field-wrap">
+                <label for="customer_name" class="input-label">
+                  Tu Nombre Completo <span class="req-star">*</span>
                 </label>
-                <input type="text" id="customer_name" name="customer_name" class="field-input" placeholder="Ej. María Elena Garza" required autocomplete="name">
+                <input type="text" id="customer_name" name="customer_name" class="text-input" placeholder="Ej. María Elena Garza" required autocomplete="name">
               </div>
 
               <!-- Email -->
-              <div class="field-group">
-                <label for="customer_email" class="field-label">
-                  Correo Electrónico <span class="required">*</span>
+              <div class="input-field-wrap">
+                <label for="customer_email" class="input-label">
+                  Correo Electrónico <span class="req-star">*</span>
                 </label>
-                <input type="email" id="customer_email" name="customer_email" class="field-input" placeholder="tu-correo@ejemplo.com" required autocomplete="email">
-                <span class="field-hint">Aquí recibirás tu lectura en menos de 24 horas.</span>
+                <input type="email" id="customer_email" name="customer_email" class="text-input" placeholder="tu-correo@ejemplo.com" required autocomplete="email">
+                <span class="input-hint">Aquí recibirás tu lectura en audio y texto dentro de 24h.</span>
               </div>
-            </div>
 
-            <div class="form-grid-2col">
               <!-- Phone (Optional) -->
-              <div class="field-group">
-                <label for="customer_phone" class="field-label">
-                  Teléfono / WhatsApp <span class="field-optional">(Opcional)</span>
+              <div class="input-field-wrap">
+                <label for="customer_phone" class="input-label">
+                  Teléfono / WhatsApp <span class="opt-tag">(Opcional)</span>
                 </label>
-                <input type="tel" id="customer_phone" name="customer_phone" class="field-input" placeholder="Ej. +52 870 171 3372" autocomplete="tel">
+                <input type="tel" id="customer_phone" name="customer_phone" class="text-input" placeholder="Ej. +52 870 171 3372" autocomplete="tel">
               </div>
 
               <!-- Birthdate -->
-              <div class="field-group">
-                <label for="customer_birthdate" class="field-label">
-                  Fecha de Nacimiento <span class="required">*</span>
+              <div class="input-field-wrap">
+                <label for="customer_birthdate" class="input-label">
+                  Fecha de Nacimiento <span class="req-star">*</span>
                 </label>
-                <input type="date" id="customer_birthdate" name="customer_birthdate" class="field-input" required autocomplete="bday">
-                <span class="field-hint">Permite sintonizar con tu mapa astral.</span>
+                <input type="date" id="customer_birthdate" name="customer_birthdate" class="text-input date-input" required autocomplete="bday">
+                <span class="input-hint">Para sintonizar con tu mapa astral y energía natal.</span>
               </div>
+
+              <!-- Category -->
+              <div class="input-field-wrap span-full">
+                <label for="category" class="input-label">
+                  Área de tu Consulta <span class="req-star">*</span>
+                </label>
+                <div class="select-container">
+                  <select id="category" name="category" class="select-input" required>
+                    <option value="Amor">Amor y Relaciones</option>
+                    <option value="Trabajo/Dinero">Trabajo y Dinero</option>
+                    <option value="Familia">Familia y Hogar</option>
+                    <option value="Otro">Crecimiento Espiritual / Otro</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Dynamic Field: Involved Names (3 & 5 Cartas) -->
+              <div class="input-field-wrap span-full hidden" id="field-involved-names">
+                <label for="involved_names" class="input-label">
+                  Nombre(s) de Persona(s) Involucrada(s) <span class="opt-tag">(Opcional)</span>
+                </label>
+                <input type="text" id="involved_names" name="involved_names" class="text-input" placeholder="Ej. Carlos Méndez">
+                <span class="input-hint">Ayuda a enfocar los lazos energéticos y dinámicas mutuas.</span>
+              </div>
+
+              <!-- Dynamic Field: Core Focus (5 Cartas Required) -->
+              <div class="input-field-wrap span-full hidden" id="field-core-focus">
+                <label for="core_focus" class="input-label">
+                  ¿Qué es lo que más deseas saber o descubrir? <span class="req-star">*</span>
+                </label>
+                <textarea id="core_focus" name="core_focus" class="text-input textarea-input" placeholder="Describe tu mayor inquietud o el aspecto principal que deseas profundizar en la tirada..."></textarea>
+              </div>
+
+              <!-- Primary Question -->
+              <div class="input-field-wrap span-full">
+                <label for="question" class="input-label">
+                  Tu Pregunta o Situación <span class="req-star">*</span>
+                </label>
+                <textarea id="question" name="question" class="text-input textarea-input" placeholder="Escribe tu pregunta o situación con el mayor detalle posible para darte la respuesta más clara y reveladora..." required></textarea>
+              </div>
+
             </div>
 
-            <!-- Category -->
-            <div class="field-group">
-              <label for="category" class="field-label">
-                Área de tu Consulta <span class="required">*</span>
-              </label>
-              <select id="category" name="category" class="select-input" required>
-                <option value="Amor">Amor y Relaciones</option>
-                <option value="Trabajo/Dinero">Trabajo y Dinero</option>
-                <option value="Familia">Familia y Hogar</option>
-                <option value="Otro">Crecimiento Espiritual / Otro</option>
-              </select>
-            </div>
-
-            <!-- Dynamic Field: Involved Names (3 & 5 Cartas) -->
-            <div class="field-group hidden" id="field-involved-names">
-              <label for="involved_names" class="field-label">
-                Nombre(s) de Persona(s) Involucrada(s) <span class="field-optional">(Opcional)</span>
-              </label>
-              <input type="text" id="involved_names" name="involved_names" class="field-input" placeholder="Ej. Carlos Méndez">
-            </div>
-
-            <!-- Dynamic Field: Core Focus (5 Cartas Required) -->
-            <div class="field-group hidden" id="field-core-focus">
-              <label for="core_focus" class="field-label">
-                ¿Qué es lo que más deseas saber o descubrir? <span class="required">*</span>
-              </label>
-              <textarea id="core_focus" name="core_focus" class="field-input" placeholder="Describe tu mayor inquietud o el foco principal en el que deseas profundizar..."></textarea>
-            </div>
-
-            <!-- Primary Question -->
-            <div class="field-group">
-              <label for="question" class="field-label">
-                Tu Pregunta o Situación <span class="required">*</span>
-              </label>
-              <textarea id="question" name="question" class="field-input" placeholder="Escribe tu pregunta con toda la claridad y detalle posible..." required></textarea>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="pay-btn" id="submit-btn">
-              <span>Continuar al Pago • <span id="btn-price-label">$150 MXN</span></span>
+            <!-- Pay Button -->
+            <button type="submit" class="submit-pay-btn" id="submit-btn">
+              <span>Continuar al Pago Seguro • <span id="btn-price-label">$150 MXN</span></span>
+              <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </button>
 
-            <!-- Support note -->
-            <p class="form-support-note">
-              ¿Dudas con tu pago o formulario? Contáctanos directamente: <a href="tel:+528701713372">+52 870 171 3372</a>
-            </p>
-          </div>
-        </form>
+            <!-- Support Note -->
+            <div class="form-contact-footer">
+              <span>¿Dudas con tu orden? Contáctanos directamente: <a href="tel:+528701713372">+52 870 171 3372</a></span>
+            </div>
+
+          </form>
+
+        </div>
       </div>
     </section>
 
     <!-- ══ SCREEN 3: SESIÓN POR LLAMADA (LIVE CALL $450) ══ -->
-    <section id="screen-sesion" class="screen" aria-labelledby="sesion-title">
-      <button class="back-btn" id="btn-back-sesion" aria-label="Volver al inicio">‹</button>
+    <section id="screen-sesion" class="screen" aria-labelledby="sesion-main-title">
+      <div class="form-wrapper">
+        
+        <button class="back-link-btn" id="btn-back-sesion" type="button" aria-label="Volver al inicio">
+          <span aria-hidden="true">‹</span>
+          <span>Volver al Inicio</span>
+        </button>
 
-      <div class="form-screen">
-        <div class="form-hero">
-          <span class="form-emoji" aria-hidden="true">🌙</span>
-          <h2 class="form-title" id="sesion-title">Sesión por Llamada</h2>
-          <p class="form-subtitle">45 minutos en vivo con Claudia. Selecciona tu horario en tiempo real.</p>
-          <div class="form-price-badge">$450 MXN</div>
-        </div>
+        <div class="form-card">
+          
+          <div class="form-header-box">
+            <div class="form-icon-emblem" aria-hidden="true">🌙</div>
+            <h2 class="form-main-title" id="sesion-main-title">Sesión por Llamada</h2>
+            <p class="form-intro-desc">
+              45 minutos en vivo 1 a 1 con Claudia. Elige tu fecha y hora en el calendario interactivo.
+            </p>
+            <div class="price-chip-highlight">$450 MXN</div>
+          </div>
 
-        <form id="form-llamada" class="booking-form">
-          <div class="form-body">
-            <!-- Slot Picker Section -->
-            <div class="field-group" id="slot-picker-section">
-              <label class="field-label">
-                Elige Fecha &amp; Horario Disponible <span class="required">*</span>
-              </label>
-              <div class="slots-container" id="slots-container">
-                <div class="slots-loading">
-                  <span class="spinner" aria-hidden="true"></span>
-                  <span>Cargando horarios disponibles...</span>
+          <!-- CALL BOOKING FORM -->
+          <form id="form-llamada" class="clean-form">
+            <div class="form-fields-grid">
+              
+              <!-- Slot Picker Section -->
+              <div class="input-field-wrap span-full" id="slot-picker-section">
+                <label class="input-label">
+                  Elige Fecha &amp; Horario Disponible <span class="req-star">*</span>
+                </label>
+                
+                <div class="slots-box" id="slots-container">
+                  <div class="slots-loading" id="slots-loading-indicator">
+                    <span class="spinner-dot" aria-hidden="true"></span>
+                    <span>Consultando horarios disponibles con Claudia...</span>
+                  </div>
+                  <div class="slots-grid" id="slots-grid"></div>
                 </div>
-                <div class="slots-grid" id="slots-grid"></div>
-              </div>
-              <input type="hidden" id="selected_slot_id" name="slot_id" required>
-              <div id="slot-lock-banner" class="slot-lock-banner hidden">
-                <span>⏱ Horario apartado por 15 minutos mientras completas tu pago.</span>
-              </div>
-            </div>
 
-            <div class="form-grid-2col">
+                <input type="hidden" id="selected_slot_id" name="slot_id" required>
+                
+                <div id="slot-lock-banner" class="slot-lock-banner hidden">
+                  <span>⏱ Horario apartado por 15 minutos mientras completas tu pago.</span>
+                </div>
+              </div>
+
               <!-- Customer Name -->
-              <div class="field-group">
-                <label for="call_customer_name" class="field-label">
-                  Tu Nombre Completo <span class="required">*</span>
+              <div class="input-field-wrap">
+                <label for="call_customer_name" class="input-label">
+                  Tu Nombre Completo <span class="req-star">*</span>
                 </label>
-                <input type="text" id="call_customer_name" name="customer_name" class="field-input" placeholder="Ej. María Elena Garza" required autocomplete="name">
+                <input type="text" id="call_customer_name" name="customer_name" class="text-input" placeholder="Ej. María Elena Garza" required autocomplete="name">
               </div>
 
-              <!-- Email -->
-              <div class="field-group">
-                <label for="call_customer_email" class="field-label">
-                  Correo Electrónico <span class="required">*</span>
+              <!-- Customer Email -->
+              <div class="input-field-wrap">
+                <label for="call_customer_email" class="input-label">
+                  Correo Electrónico <span class="req-star">*</span>
                 </label>
-                <input type="email" id="call_customer_email" name="customer_email" class="field-input" placeholder="tu-correo@ejemplo.com" required autocomplete="email">
-                <span class="field-hint">Aquí te enviaremos el enlace de tu llamada.</span>
-              </div>
-            </div>
-
-            <div class="form-grid-2col">
-              <!-- Phone -->
-              <div class="field-group">
-                <label for="call_customer_phone" class="field-label">
-                  Teléfono / WhatsApp <span class="field-optional">(Opcional)</span>
-                </label>
-                <input type="tel" id="call_customer_phone" name="customer_phone" class="field-input" placeholder="Ej. +52 870 171 3372" autocomplete="tel">
+                <input type="email" id="call_customer_email" name="customer_email" class="text-input" placeholder="tu-correo@ejemplo.com" required autocomplete="email">
+                <span class="input-hint">Aquí te enviaremos el enlace y acceso a la sesión.</span>
               </div>
 
-              <!-- Birthdate -->
-              <div class="field-group">
-                <label for="call_customer_birthdate" class="field-label">
-                  Fecha de Nacimiento <span class="required">*</span>
+              <!-- Customer Phone -->
+              <div class="input-field-wrap">
+                <label for="call_customer_phone" class="input-label">
+                  Teléfono / WhatsApp <span class="opt-tag">(Opcional)</span>
                 </label>
-                <input type="date" id="call_customer_birthdate" name="customer_birthdate" class="field-input" required autocomplete="bday">
+                <input type="tel" id="call_customer_phone" name="customer_phone" class="text-input" placeholder="Ej. +52 870 171 3372" autocomplete="tel">
               </div>
-            </div>
 
-            <!-- Main Topic / Focus -->
-            <div class="field-group">
-              <label for="call_question" class="field-label">
-                Tema Central o Preguntas para la Sesión <span class="required">*</span>
-              </label>
-              <textarea id="call_question" name="question" class="field-input" placeholder="Cuéntanos brevemente los temas que deseas abordar en tu sesión..." required></textarea>
+              <!-- Customer Birthdate -->
+              <div class="input-field-wrap">
+                <label for="call_customer_birthdate" class="input-label">
+                  Fecha de Nacimiento <span class="req-star">*</span>
+                </label>
+                <input type="date" id="call_customer_birthdate" name="customer_birthdate" class="text-input date-input" required autocomplete="bday">
+              </div>
+
+              <!-- Topics / Question -->
+              <div class="input-field-wrap span-full">
+                <label for="call_question" class="input-label">
+                  Tema Central o Preguntas para la Sesión <span class="req-star">*</span>
+                </label>
+                <textarea id="call_question" name="question" class="text-input textarea-input" placeholder="Cuéntanos brevemente las áreas o situaciones que deseas abordar durante tu llamada..." required></textarea>
+              </div>
+
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="pay-btn" id="call-submit-btn">
-              <span>Apartar y Pagar • $450 MXN</span>
+            <button type="submit" class="submit-pay-btn" id="call-submit-btn">
+              <span>Apartar Horario y Pagar • $450 MXN</span>
+              <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </button>
 
-            <!-- Support note -->
-            <p class="form-support-note">
-              Contacto para dudas o reprogramación: Teléfono / WhatsApp <a href="tel:+528701713372">+52 870 171 3372</a>
-            </p>
-          </div>
-        </form>
+            <!-- Support Note -->
+            <div class="form-contact-footer">
+              <span>¿Necesitas reprogramar o tienes dudas? Teléfono / WhatsApp: <a href="tel:+528701713372">+52 870 171 3372</a></span>
+            </div>
+
+          </form>
+
+        </div>
       </div>
     </section>
 
     <!-- ══ SCREEN 4: SOBRE CLAUDIA & FAQ ══ -->
-    <section id="screen-sobre" class="screen" aria-labelledby="sobre-title">
-      <div class="sobre-hero">
-        <div class="sobre-image-wrap">
-          <img class="sobre-img" src="/images/claudia.jpg" alt="Claudia — Tarotista y Guía Espiritual">
-        </div>
-        <div class="sobre-overlay"></div>
-      </div>
-
-      <div class="sobre-content">
-        <div class="sobre-header">
-          <img class="logo-small" src="/images/logo.jpg" alt="Lumina Umay Logo">
-          <div>
-            <h2 class="sobre-name" id="sobre-title">Claudia</h2>
-            <div class="sobre-role">TAROTISTA &amp; GUÍA ESPIRITUAL</div>
+    <section id="screen-sobre" class="screen" aria-labelledby="sobre-claudia-title">
+      <div class="about-container">
+        
+        <!-- ABOUT PROFILE CARD -->
+        <div class="profile-card">
+          <div class="profile-artwork-frame">
+            <img class="profile-img" src="/images/claudia.jpg" alt="Claudia Tarotista &amp; Guía Espiritual">
+            <div class="profile-gradient-mask" aria-hidden="true"></div>
           </div>
-        </div>
 
-        <p class="sobre-bio">
-          "El tarot no predice un destino inamovible: es un espejo sagrado que revela las energías presentes para que tomes las mejores decisiones desde el amor y la consciencia."
-        </p>
+          <div class="profile-info-body">
+            <div class="profile-identity">
+              <img class="profile-mini-avatar" src="/images/logo.jpg" alt="Lumina Umay Avatar">
+              <div>
+                <h2 class="profile-name" id="sobre-claudia-title">Claudia</h2>
+                <div class="profile-role">TAROTISTA &amp; GUÍA ESPIRITUAL</div>
+              </div>
+            </div>
 
-        <!-- Direct Contact Card -->
-        <div class="claudia-contact-card">
-          <div class="contact-card-header">
-            <span class="contact-card-icon">📱</span>
-            <div>
-              <strong>Contacto Directo &amp; Atención Personalizada</strong>
-              <p>Para dudas sobre tus lecturas, confirmación o reprogramaciones:</p>
+            <blockquote class="profile-quote">
+              "El tarot no predice un destino inamovible: es un espejo sagrado que revela las energías presentes para que tomes las mejores decisiones desde el amor y la consciencia."
+            </blockquote>
+
+            <!-- Direct Contact Card -->
+            <div class="claudia-direct-card">
+              <div class="claudia-direct-info">
+                <span class="direct-badge">Atención Directa</span>
+                <span class="direct-title">Contacto &amp; Acompañamiento Personal</span>
+                <p class="direct-desc">Para dudas antes de tu compra, seguimiento de tu orden o reprogramaciones:</p>
+              </div>
+              <a href="tel:+528701713372" class="btn-direct-contact">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
+                <span>Llamar / Mensaje Directo (+52 870 171 3372)</span>
+              </a>
             </div>
           </div>
-          <a href="tel:+528701713372" class="wa-action-btn">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
-            <span>Llamar / Mensaje Directo (+52 870 171 3372)</span>
-          </a>
         </div>
 
         <!-- MEXICAN SPANISH FAQ ACCORDION -->
-        <div class="faq-section faq-accordion" id="faq-accordion">
-          <h3 class="faq-title">✦ Preguntas Frecuentes</h3>
+        <div class="faq-card-section" id="faq-accordion">
+          <div class="faq-heading-box">
+            <span class="faq-eyebrow">Dudas Habituales</span>
+            <h3 class="faq-section-title">✦ Preguntas Frecuentes</h3>
+            <p class="faq-section-subtitle">Todo lo que necesitas saber sobre el proceso, pagos y tiempos de entrega.</p>
+          </div>
           
-          <div class="faq-list">
+          <div class="faq-items-list">
+            
             <!-- Q1 -->
             <div class="faq-item" id="faq-item-1">
-              <div class="faq-question">
-                <span>¿Cómo recibo mi lectura?</span>
-                <span class="faq-icon" aria-hidden="true">▾</span>
-              </div>
-              <div class="faq-answer">
+              <button class="faq-trigger" type="button" aria-expanded="false">
+                <span class="faq-q-text">¿Cómo recibo mi lectura?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="faq-content-panel">
                 <p>Una vez confirmado tu pago, Claudia realiza tu tirada de manera personalizada y te envía la interpretación detallada directamente a tu correo electrónico registrado.</p>
               </div>
             </div>
 
             <!-- Q2 -->
             <div class="faq-item" id="faq-item-2">
-              <div class="faq-question">
-                <span>¿Cuánto tarda en llegar la respuesta?</span>
-                <span class="faq-icon" aria-hidden="true">▾</span>
-              </div>
-              <div class="faq-answer">
+              <button class="faq-trigger" type="button" aria-expanded="false">
+                <span class="faq-q-text">¿Cuánto tarda en llegar la respuesta?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="faq-content-panel">
                 <p>Todas las lecturas a distancia cuentan con nuestra <strong>Garantía de Entrega en 24 Horas</strong> hábiles posteriores a la aprobación de tu pago.</p>
               </div>
             </div>
 
             <!-- Q3 -->
             <div class="faq-item" id="faq-item-3">
-              <div class="faq-question">
-                <span>¿Qué pasa si no puedo asistir a mi llamada agendada?</span>
-                <span class="faq-icon" aria-hidden="true">▾</span>
-              </div>
-              <div class="faq-answer">
-                <p>Si surge algún imprevisto, puedes reprogramar tu sesión avisando con al menos <strong>4 horas de anticipación</strong> respondiendo a tu correo o enviando un mensaje directo a WhatsApp al <strong>+52 870 171 3372</strong>.</p>
+              <button class="faq-trigger" type="button" aria-expanded="false">
+                <span class="faq-q-text">¿Qué pasa si no puedo asistir a mi llamada agendada?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="faq-content-panel">
+                <p>Si surge algún imprevisto, puedes reprogramar tu sesión avisando con al menos <strong>4 horas de anticipación</strong> respondiendo a tu correo o enviando un mensaje directo a WhatsApp o teléfono al <strong>+52 870 171 3372</strong>.</p>
               </div>
             </div>
 
             <!-- Q4 -->
             <div class="faq-item" id="faq-item-4">
-              <div class="faq-question">
-                <span>¿Los pagos son seguros?</span>
-                <span class="faq-icon" aria-hidden="true">▾</span>
-              </div>
-              <div class="faq-answer">
+              <button class="faq-trigger" type="button" aria-expanded="false">
+                <span class="faq-q-text">¿Los pagos son seguros?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="faq-content-panel">
                 <p>Totalmente. Todos los pagos se procesan de forma cifrada a través de <strong>Mercado Pago</strong> (tarjetas de crédito, débito, transferencias SPEI o efectivo en OXXO).</p>
               </div>
             </div>
 
             <!-- Q5 -->
             <div class="faq-item" id="faq-item-5">
-              <div class="faq-question">
-                <span>¿Puedo cambiar mi pregunta después de pagar?</span>
-                <span class="faq-icon" aria-hidden="true">▾</span>
-              </div>
-              <div class="faq-answer">
-                <p>Si necesitas corregir o agregar información, puedes responder a tu correo o escribirnos a WhatsApp (<strong>+52 870 171 3372</strong>) dentro de las primeras <strong>2 horas</strong> tras realizar tu pago.</p>
+              <button class="faq-trigger" type="button" aria-expanded="false">
+                <span class="faq-q-text">¿Puedo cambiar mi pregunta después de pagar?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="faq-content-panel">
+                <p>Si necesitas corregir o agregar información, puedes responder a tu correo o escribirnos al teléfono (<strong>+52 870 171 3372</strong>) dentro de las primeras <strong>2 horas</strong> tras realizar tu pago.</p>
               </div>
             </div>
 
             <!-- Q6 -->
             <div class="faq-item" id="faq-item-6">
-              <div class="faq-question">
-                <span>¿Qué diferencia hay entre las lecturas de 1, 3 y 5 cartas?</span>
-                <span class="faq-icon" aria-hidden="true">▾</span>
-              </div>
-              <div class="faq-answer">
+              <button class="faq-trigger" type="button" aria-expanded="false">
+                <span class="faq-q-text">¿Qué diferencia hay entre las lecturas de 1, 3 y 5 cartas?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="faq-content-panel">
                 <p><strong>1 carta ($150 MXN)</strong> es para dudas concretas de Sí/No. <strong>3 cartas ($350 MXN)</strong> brinda un panorama general (pasado, presente y consejo). <strong>5 cartas ($500 MXN)</strong> es un análisis profundo de bloqueos, dinamismos y desenlace óptimo.</p>
               </div>
             </div>
 
             <!-- Q7 -->
             <div class="faq-item" id="faq-item-7">
-              <div class="faq-question">
-                <span>¿Cómo me preparo para mi sesión por llamada?</span>
-                <span class="faq-icon" aria-hidden="true">▾</span>
-              </div>
-              <div class="faq-answer">
+              <button class="faq-trigger" type="button" aria-expanded="false">
+                <span class="faq-q-text">¿Cómo me preparo para mi sesión por llamada?</span>
+                <span class="faq-chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="faq-content-panel">
                 <p>Busca un lugar privado, silencioso y tranquilo. Conéctate 5 minutos antes con mente abierta para recibir los mensajes del oráculo.</p>
               </div>
             </div>
+
           </div>
         </div>
 
-        <div class="footer-legal">
-          <p>Con luz, gratitud y bendiciones — Claudia</p>
-          <p>Atención al cliente: <a href="tel:+528701713372" class="wa-footer-link">+52 870 171 3372</a></p>
-          <p>© 2026 Lumina Umay. Todos los derechos reservados.</p>
-        </div>
+        <!-- SITE FOOTER -->
+        <footer class="site-footer">
+          <p class="footer-blessing">Con luz, gratitud y bendiciones — Claudia</p>
+          <p class="footer-contact">Atención al cliente: <a href="tel:+528701713372" class="footer-tel-link">+52 870 171 3372</a></p>
+          <p class="footer-copy">© 2026 Lumina Umay. Todos los derechos reservados.</p>
+        </footer>
+
       </div>
     </section>
 
   </main>
 
-  <!-- ══ BOTTOM MOBILE NAVBAR ══ -->
-  <nav class="navbar mobile-navbar" role="navigation" aria-label="Navegación móvil">
-    <button class="nav-btn active" id="nav-inicio">
+  <!-- ═════════════════════════════════════════════════════════════
+       MOBILE BOTTOM TAB BAR (iOS / APP STYLE)
+  ═════════════════════════════════════════════════════════════ -->
+  <nav class="mobile-tabbar" role="navigation" aria-label="Navegación móvil">
+    <button class="tab-btn active" id="nav-inicio" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>Inicio</span>
     </button>
-    <button class="nav-btn" id="nav-lectura">
+    <button class="tab-btn" id="nav-lectura" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       <span>Lectura</span>
     </button>
-    <button class="nav-btn" id="nav-sesion">
+    <button class="tab-btn" id="nav-sesion" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       <span>Sesión</span>
     </button>
-    <button class="nav-btn" id="nav-sobre">
+    <button class="tab-btn" id="nav-sobre" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span>Claudia</span>
     </button>
   </nav>
 
-  <!-- ══ POST-PAYMENT CONFIRMATION MODAL ══ -->
+  <!-- ═════════════════════════════════════════════════════════════
+       POST-PAYMENT CONFIRMATION MODAL
+  ═════════════════════════════════════════════════════════════ -->
   <div class="modal-backdrop hidden" id="confirmation-modal" role="dialog" aria-modal="true">
-    <div class="modal-container">
+    <div class="modal-dialog">
       
       <!-- Polling State -->
       <div class="modal-state" id="confirmation-polling">
-        <div class="spinner spinner-lg" aria-hidden="true"></div>
+        <div class="spinner-loader" aria-hidden="true"></div>
         <h2 class="modal-title">Verificando tu Pago...</h2>
-        <p class="modal-subtitle">Estamos sincronizando la confirmación con Mercado Pago. Esto tomará solo unos segundos.</p>
+        <p class="modal-description">Estamos sincronizando la confirmación con Mercado Pago. Esto tomará solo unos segundos.</p>
       </div>
 
       <!-- Success: Async Reading -->
@@ -506,15 +649,15 @@
         <h2 class="modal-title">¡Pago Confirmado con Éxito!</h2>
         <p class="modal-order-number">Orden: <strong id="async-order-id">#ORD-XXXX</strong></p>
         
-        <div class="confirm-card-box">
-          <p><strong>Garantía de Entrega en 24 Horas</strong></p>
+        <div class="modal-receipt-box">
+          <p class="receipt-highlight"><strong>Garantía de Entrega en 24 Horas</strong></p>
           <p id="async-turnaround-text">Claudia revisará tu consulta con total dedicación. Tu lectura será enviada directamente a tu correo (<span id="async-customer-email">tu correo</span>) dentro de las próximas 24 horas.</p>
-          <div class="modal-contact-line">
+          <div class="receipt-support-line">
             <span>Dudas con tu orden: Teléfono / WhatsApp <a href="tel:+528701713372">+52 870 171 3372</a></span>
           </div>
         </div>
 
-        <button type="button" class="confirm-back" id="btn-close-modal-async">Volver al Inicio</button>
+        <button type="button" class="btn-modal-close" id="btn-close-modal-async">Volver al Inicio</button>
       </div>
 
       <!-- Success: Live Call -->
@@ -523,34 +666,34 @@
         <h2 class="modal-title">¡Cita Confirmada!</h2>
         <p class="modal-order-number">Orden: <strong id="call-order-id">#ORD-XXXX</strong></p>
         
-        <div class="confirm-card-box">
-          <p><strong>Tu Sesión en Vivo con Claudia</strong></p>
+        <div class="modal-receipt-box">
+          <p class="receipt-highlight"><strong>Tu Sesión en Vivo con Claudia</strong></p>
           <p>Fecha: <strong id="call-slot-date">-</strong></p>
           <p>Horario: <strong id="call-slot-time">-</strong> (Hora CDMX)</p>
-          <div class="modal-contact-line">
+          <div class="receipt-support-line">
             <span>Para cualquier ajuste: Teléfono / WhatsApp <a href="tel:+528701713372">+52 870 171 3372</a></span>
           </div>
         </div>
 
-        <button type="button" class="confirm-back" id="btn-close-modal-call">Volver al Inicio</button>
+        <button type="button" class="btn-modal-close" id="btn-close-modal-call">Volver al Inicio</button>
       </div>
 
       <!-- Overbooked / Rescheduling -->
       <div class="modal-state hidden" id="confirmation-overbooked">
         <div class="modal-icon-badge">⚠️</div>
         <h2 class="modal-title">Pago Recibido — Reprogramación Requerida</h2>
-        <div class="confirm-card-box">
+        <div class="modal-receipt-box">
           <p>Tu pago fue recibido, pero el horario seleccionado expiró justo antes del pago.</p>
-          <p>Claudia se pondrá en contacto contigo de inmediato a tu correo o por WhatsApp (+52 870 171 3372) para acordar un horario preferencial.</p>
+          <p>Claudia se pondrá en contacto contigo de inmediato a tu correo o por teléfono (+52 870 171 3372) para acordar un horario preferencial.</p>
         </div>
-        <button type="button" class="confirm-back" id="btn-close-modal-overbooked">Volver al Inicio</button>
+        <button type="button" class="btn-modal-close" id="btn-close-modal-overbooked">Volver al Inicio</button>
       </div>
 
     </div>
   </div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="toast"></div>
+  <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
 </div>
 

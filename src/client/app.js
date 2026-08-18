@@ -1,6 +1,6 @@
 /**
- * LUMINA UMAY — CLIENT CONTROLLER
- * Fullstack Tarot Booking, Concurrency Soft-Locking & Mercado Pago State Engine
+ * LUMINA UMAY — CLIENT CONTROLLER & PAYMENT ENGINE
+ * Seamless screen transitions, concurrency soft-locking, and Mercado Pago state handler.
  */
 
 // --- Tier Metadata & Pricing Definitions ---
@@ -10,28 +10,32 @@ const TIER_METADATA = {
     price: 150,
     isCall: false,
     turnaround: '24 horas',
-    description: 'Respuesta puntual a una pregunta concreta de Sí o No.'
+    title: 'Lectura de 1 Carta ($150 MXN)',
+    description: 'Ideal para responder con precisión una pregunta concreta o tomar una decisión puntual entre dos caminos.'
   },
   '3_cartas': {
     name: 'Lectura de 3 Cartas',
     price: 350,
     isCall: false,
     turnaround: '24 horas',
-    description: 'Panorama general: pasado, presente y consejo del oráculo.'
+    title: 'Lectura de 3 Cartas ($350 MXN)',
+    description: 'Panorama general de tu situación: origen / pasado, energía presente y consejo directo del oráculo.'
   },
   '5_cartas': {
     name: 'Lectura de 5 Cartas',
     price: 500,
     isCall: false,
     turnaround: '24 horas',
-    description: 'Tirada profunda: bloqueos, influencias y mejor desenlace.'
+    title: 'Lectura de 5 Cartas ($500 MXN)',
+    description: 'Tirada profunda y exhaustiva: raíces, bloqueos ocultos, dinamismo de personas involucradas y desenlace óptimo.'
   },
   'llamada': {
     name: 'Sesión por Llamada',
     price: 450,
     isCall: true,
     turnaround: 'Sesión en vivo (45 min)',
-    description: '45 minutos en vivo 1 a 1 con Claudia.'
+    title: 'Sesión por Llamada ($450 MXN)',
+    description: '45 minutos en vivo 1 a 1 con Claudia. Tirada completa, preguntas ilimitadas y diálogo directo.'
   }
 };
 
@@ -64,8 +68,8 @@ function navigateTo(screenId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Update Navbar & Desktop Nav Active State
-  const navBtns = document.querySelectorAll('.nav-btn, .d-nav-link');
+  // Update Navbar & Mobile Tabbar Active States
+  const navBtns = document.querySelectorAll('.nav-item, .tab-btn');
   navBtns.forEach(b => b.classList.remove('active'));
 
   if (screenId === 'screen-inicio') {
@@ -94,23 +98,29 @@ function selectTier(tierId) {
   const tierInput = document.getElementById('tier_id_input');
   if (tierInput) tierInput.value = tierId;
 
-  // Update Tabs
-  document.querySelectorAll('.tier-tab').forEach(tab => {
-    tab.classList.remove('active');
-    tab.setAttribute('aria-selected', 'false');
+  // Update Segment Buttons
+  document.querySelectorAll('.tier-segment-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.setAttribute('aria-selected', 'false');
   });
-  const activeTab = document.getElementById(`tab-${tierId}`);
-  if (activeTab) {
-    activeTab.classList.add('active');
-    activeTab.setAttribute('aria-selected', 'true');
+  const activeBtn = document.getElementById(`tab-${tierId}`);
+  if (activeBtn) {
+    activeBtn.classList.add('active');
+    activeBtn.setAttribute('aria-selected', 'true');
   }
 
-  // Update Price Badge & Button
-  const price = TIER_METADATA[tierId].price;
+  // Update Price Badges & Labels
+  const tierInfo = TIER_METADATA[tierId];
+  const price = tierInfo.price;
   const badge = document.getElementById('lectura-price-badge');
   const btnLabel = document.getElementById('btn-price-label');
+  const featureTitle = document.getElementById('tier-feature-title');
+  const featureDesc = document.getElementById('tier-feature-desc');
+
   if (badge) badge.textContent = `$${price} MXN`;
   if (btnLabel) btnLabel.textContent = `$${price} MXN`;
+  if (featureTitle) featureTitle.textContent = tierInfo.title;
+  if (featureDesc) featureDesc.textContent = tierInfo.description;
 
   // Toggle Dynamic Fields
   const fieldInvolved = document.getElementById('field-involved-names');
@@ -139,21 +149,21 @@ async function loadSlots() {
   const grid = document.getElementById('slots-grid');
   if (!container || !grid) return;
 
-  grid.innerHTML = '<div class="slots-loading"><span class="spinner"></span><span>Consultando horarios disponibles...</span></div>';
+  grid.innerHTML = '<div class="slots-loading"><span class="spinner-dot"></span><span>Consultando horarios con Claudia...</span></div>';
 
   try {
     const res = await fetch('/api/slots');
     const data = await res.json();
 
     if (!data.success || !Array.isArray(data.slots) || data.slots.length === 0) {
-      grid.innerHTML = '<div class="slots-empty">No hay horarios disponibles por el momento. Claudia abrirá nuevos espacios pronto.</div>';
+      grid.innerHTML = '<div class="slots-empty">No hay horarios disponibles por el momento. Claudia abrirá nuevos espacios próximamente.</div>';
       return;
     }
 
     state.slots = data.slots;
     renderSlots(data.slots);
   } catch (err) {
-    grid.innerHTML = '<div class="slots-empty">No fue posible cargar los horarios. Por favor intenta nuevamente.</div>';
+    grid.innerHTML = '<div class="slots-empty">No fue posible conectar con el calendario. Por favor intenta de nuevo.</div>';
   }
 }
 window.loadSlots = loadSlots;
@@ -211,7 +221,7 @@ async function handleSlotSelect(slotId) {
     const data = await res.json();
 
     if (!res.ok || !data.success) {
-      showToast(data.error || 'Este horario ya fue apartado por otra persona.');
+      showToast(data.error || 'Este horario acaba de ser apartado por otra persona.');
       loadSlots();
       return;
     }
@@ -234,7 +244,7 @@ async function handleSlotSelect(slotId) {
     if (banner) banner.classList.remove('hidden');
 
   } catch (err) {
-    showToast('Error al apartar horario temporalmente.');
+    showToast('Error al apartar horario. Revisa tu conexión.');
   }
 }
 
@@ -295,7 +305,7 @@ async function handleLlamadaSubmit(event) {
   }
 
   if (!name || !email || !birthdate || !question) {
-    showToast('Por favor completa todos los datos de tu consulta.');
+    showToast('Por favor completa todos los datos requeridos para la llamada.');
     return;
   }
 
@@ -319,7 +329,7 @@ async function initiateCheckout(payload, submitBtn) {
   const originalText = submitBtn ? submitBtn.innerHTML : '';
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner"></span> Generando enlace seguro...';
+    submitBtn.innerHTML = '<span class="spinner-dot"></span> Generando enlace seguro...';
   }
 
   try {
@@ -364,12 +374,19 @@ async function initiateCheckout(payload, submitBtn) {
 }
 
 // ── FAQ ACCORDION TOGGLE ──
-function toggleFaq(element) {
-  if (!element) return;
-  const wasOpen = element.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('open'));
+function toggleFaq(itemElement) {
+  if (!itemElement) return;
+  const wasOpen = itemElement.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.classList.remove('open');
+    const trigger = item.querySelector('.faq-trigger');
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+  });
+
   if (!wasOpen) {
-    element.classList.add('open');
+    itemElement.classList.add('open');
+    const trigger = itemElement.querySelector('.faq-trigger');
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
   }
 }
 window.toggleFaq = toggleFaq;
@@ -461,8 +478,8 @@ function startOrderPolling(orderId) {
         statePolling.innerHTML = `
           <div class="modal-icon-badge">⏳</div>
           <h2 class="modal-title">Pago en Proceso</h2>
-          <p class="modal-subtitle">Tu comprobante está siendo procesado por Mercado Pago. Te notificaremos a tu correo en cuanto se complete la confirmación.</p>
-          <button type="button" class="confirm-back" id="btn-polling-timeout-back">Volver al Inicio</button>
+          <p class="modal-description">Tu comprobante está siendo procesado por Mercado Pago. Te notificaremos a tu correo en cuanto se complete la confirmación.</p>
+          <button type="button" class="btn-modal-close" id="btn-polling-timeout-back">Volver al Inicio</button>
         `;
         document.getElementById('btn-polling-timeout-back')?.addEventListener('click', closeModalAndGoHome);
       }
@@ -487,6 +504,16 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('d-nav-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
   document.getElementById('d-nav-sobre')?.addEventListener('click', () => navigateTo('screen-sobre'));
 
+  // Mobile Bottom Tabbar Buttons
+  document.getElementById('nav-inicio')?.addEventListener('click', () => navigateTo('screen-inicio'));
+  document.getElementById('nav-lectura')?.addEventListener('click', () => navigateTo('screen-lectura'));
+  document.getElementById('nav-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
+  document.getElementById('nav-sobre')?.addEventListener('click', () => navigateTo('screen-sobre'));
+
+  // Hero CTAs
+  document.getElementById('btn-hero-lectura')?.addEventListener('click', () => navigateTo('screen-lectura'));
+  document.getElementById('btn-hero-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
+
   // Service Cards on Inicio
   document.getElementById('btn-goto-lectura')?.addEventListener('click', () => navigateTo('screen-lectura'));
   document.getElementById('btn-goto-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
@@ -495,16 +522,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-back-lectura')?.addEventListener('click', () => navigateTo('screen-inicio'));
   document.getElementById('btn-back-sesion')?.addEventListener('click', () => navigateTo('screen-inicio'));
 
-  // Navbar Buttons
-  document.getElementById('nav-inicio')?.addEventListener('click', () => navigateTo('screen-inicio'));
-  document.getElementById('nav-lectura')?.addEventListener('click', () => navigateTo('screen-lectura'));
-  document.getElementById('nav-sesion')?.addEventListener('click', () => navigateTo('screen-sesion'));
-  document.getElementById('nav-sobre')?.addEventListener('click', () => navigateTo('screen-sobre'));
-
-  // Tier Selector Tabs
-  document.querySelectorAll('.tier-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const tier = tab.getAttribute('data-tier');
+  // Tier Selector Segments
+  document.querySelectorAll('.tier-segment-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tier = btn.getAttribute('data-tier');
       if (tier) selectTier(tier);
     });
   });
@@ -515,7 +536,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // FAQ Accordion Items
   document.querySelectorAll('.faq-item').forEach(item => {
-    item.addEventListener('click', () => toggleFaq(item));
+    const trigger = item.querySelector('.faq-trigger');
+    if (trigger) {
+      trigger.addEventListener('click', () => toggleFaq(item));
+    } else {
+      item.addEventListener('click', () => toggleFaq(item));
+    }
   });
 
   // Modal Close Buttons
