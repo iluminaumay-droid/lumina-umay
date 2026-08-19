@@ -4,6 +4,7 @@ import { db } from '../db/database.js';
 import { createPreferenceSchema } from '../validators/checkout.validator.js';
 import { MercadoPagoService } from '../services/mercadopago.service.js';
 import { SlotService } from '../services/slot.service.js';
+import { syncOrderToSupabase } from '../db/supabase.js';
 import { Order, TIER_CONFIG } from '../types/checkout.types.js';
 
 export const checkoutRouter = Router();
@@ -149,6 +150,9 @@ checkoutRouter.post('/create-preference', async (req: Request, res: Response, ne
       SET mp_preference_id = ?, updated_at = ?
       WHERE id = ?
     `).run(prefResult.id, SlotService.getCurrentIso(), newOrder.id);
+
+    newOrder.mp_preference_id = prefResult.id;
+    syncOrderToSupabase(newOrder).catch(() => {});
 
     return res.status(200).json({
       success: true,

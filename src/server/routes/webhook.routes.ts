@@ -3,6 +3,7 @@ import { db } from '../db/database.js';
 import { MercadoPagoService } from '../services/mercadopago.service.js';
 import { SlotService } from '../services/slot.service.js';
 import { EmailService } from '../services/email.service.js';
+import { syncOrderToSupabase, syncSlotToSupabase, syncWebhookToSupabase } from '../db/supabase.js';
 import { Order } from '../types/checkout.types.js';
 
 export const webhookRouter = Router();
@@ -345,6 +346,26 @@ webhookRouter.post('/mercadopago', async (req: Request, res: Response, next: Nex
         console.error('[Webhook] Error sending notification emails:', emailError);
       }
     }
+
+    // Sync final state to Supabase in background
+    if (processResult.orderForEmail) {
+      syncOrderToSupabase(processResult.orderForEmail).catch(() => {});
+      if (processResult.orderForEmail.slot_id) {
+        const updatedSlot = db.prepare(`SELECT * FROM slots WHERE id = ?`).get(processResult.orderForEmail.slot_id) as any;
+        if (updatedSlot) {
+          syncSlotToSupabase(updatedSlot).catch(() => {});
+        }
+      }
+    }
+    syncWebhookToSupabase({
+      id: `evt_${paymentId}`,
+      mp_payment_id: String(paymentId),
+      event_type: eventType,
+      payload: body,
+      signature: signatureHeader || null,
+      status: processResult.orderNotFound ? 'ignored' : 'processed',
+      processed_at: nowIso,
+    }).catch(() => {});
 
     return res.status(200).json({
       success: true,
