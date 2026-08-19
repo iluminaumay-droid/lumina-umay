@@ -43,7 +43,11 @@ export function createApp(): Express {
   const clientPath = candidateClientPaths.find((p) => fs.existsSync(p)) || path.join(process.cwd(), 'src', 'client');
   app.use(express.static(clientPath));
 
-  // Health check endpoint
+  // Health check endpoints
+  app.get('/health', (_req: Request, res: Response) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime() });
+  });
+
   app.get('/api/health', (_req: Request, res: Response) => {
     res.status(200).json({
       success: true,

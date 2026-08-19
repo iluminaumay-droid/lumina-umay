@@ -21,8 +21,8 @@ async function bootstrap() {
     SlotService.startSweeper(60000);
 
     // 4. Start Express HTTP Server
-    const server = app.listen(config.port, () => {
-      console.log(`[Server] Lumina Umay booking backend running at http://localhost:${config.port}`);
+    const server = app.listen(config.port, '0.0.0.0', () => {
+      console.log(`[Server] Lumina Umay booking backend running at http://0.0.0.0:${config.port}`);
       console.log(`[Server] Environment: ${config.nodeEnv}`);
     });
 

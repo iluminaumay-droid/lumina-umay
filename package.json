@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "tsx watch src/server/index.ts",
     "build": "tsc && node -e \"import('fs').then(fs => { const d = './dist/src/server/db'; fs.mkdirSync(d, { recursive: true }); fs.copyFileSync('./src/server/db/schema.sql', d + '/schema.sql'); const t = './dist/src/server/templates'; fs.mkdirSync(t, { recursive: true }); fs.cpSync('./src/server/templates', t, { recursive: true }); if (fs.existsSync('./src/client')) { const c = './dist/src/client'; fs.mkdirSync(c, { recursive: true }); fs.cpSync('./src/client', c, { recursive: true }); } })\"",
-    "start": "node dist/src/server/index.js",
+    "start": "node --experimental-sqlite dist/src/server/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:unit": "vitest run tests/unit",
