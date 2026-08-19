@@ -138,9 +138,9 @@ checkoutRouter.post('/create-preference', async (req: Request, res: Response, ne
     );
 
     // Create MP Preference
-    const protocol = req.protocol || 'http';
-    const host = req.get('host') || `localhost:${req.app.get('port') || 3000}`;
-    const baseUrl = `${protocol}://${host}`;
+    const protocol = (req.headers['x-forwarded-proto'] as string) || req.protocol || 'https';
+    const hostHeader = req.get('host') || 'lumina-umay.vercel.app';
+    const baseUrl = `${protocol.startsWith('https') || process.env.VERCEL ? 'https' : protocol}://${hostHeader}`;
 
     const prefResult = await MercadoPagoService.createPreference(newOrder, baseUrl);
 

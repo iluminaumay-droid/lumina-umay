@@ -46,7 +46,7 @@ export class MercadoPagoService {
       description: 'Consulta de Tarot - Lumina Umay',
     };
 
-    const host = baseUrl || `http://localhost:${config.port}`;
+    const host = (baseUrl || 'https://lumina-umay.vercel.app').replace(/^http:\/\//i, 'https://');
     const client = this.getClient();
 
     if (client && config.nodeEnv === 'production') {
@@ -69,9 +69,9 @@ export class MercadoPagoService {
               email: order.customer_email,
             },
             back_urls: {
-              success: `${host}/checkout/success?order_id=${order.id}`,
-              failure: `${host}/checkout/failure?order_id=${order.id}`,
-              pending: `${host}/checkout/pending?order_id=${order.id}`,
+              success: `${host}/?order_id=${order.id}&status=approved`,
+              failure: `${host}/?order_id=${order.id}&status=failure`,
+              pending: `${host}/?order_id=${order.id}&status=pending`,
             },
             auto_return: 'approved',
             external_reference: order.id,
