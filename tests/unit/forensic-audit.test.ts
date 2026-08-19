@@ -55,13 +55,12 @@ describe('Forensic Auditor Milestone 1 Verification Suite', () => {
       }
     });
 
-    it('verifies that database.ts uses genuine SQLite DatabaseSync', () => {
+    it('verifies that database.ts uses genuine SQLite', () => {
       const dbFile = path.resolve(process.cwd(), 'src', 'server', 'db', 'database.ts');
       const content = fs.readFileSync(dbFile, 'utf8');
-      expect(content).toContain("from 'node:sqlite'");
-      expect(content).toContain('new DatabaseSync(');
-      expect(content).toContain('PRAGMA journal_mode = WAL;');
-      expect(content).toContain('PRAGMA foreign_keys = ON;');
+      expect(content).toMatch(/better-sqlite3|node:sqlite/);
+      expect(content).toContain('journal_mode = WAL');
+      expect(content).toContain('foreign_keys = ON');
     });
   });
 

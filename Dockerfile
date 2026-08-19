@@ -21,4 +21,4 @@ EXPOSE 3000
 ENV PORT=3000
 ENV NODE_ENV=production
 
-CMD ["node", "--experimental-sqlite", "dist/src/server/index.js"]
+CMD ["node", "dist/src/server/index.js"]

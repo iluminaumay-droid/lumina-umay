@@ -1,1 +1,1 @@
-web: node --experimental-sqlite dist/src/server/index.js
+web: node dist/src/server/index.js
