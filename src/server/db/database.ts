@@ -20,14 +20,24 @@ export class LuminaDatabase {
   private db: DatabaseSync;
 
   constructor(dbPath: string) {
-    if (dbPath !== ':memory:') {
-      const dir = path.dirname(dbPath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
+    let finalPath = dbPath;
+    if (finalPath !== ':memory:') {
+      try {
+        const dir = path.dirname(finalPath);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
+      } catch (err) {
+        // Read-only filesystem (e.g. Vercel serverless lambda): fallback to /tmp
+        finalPath = path.join('/tmp', path.basename(finalPath));
+        const dir = path.dirname(finalPath);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
       }
     }
 
-    this.db = new DatabaseSync(dbPath);
+    this.db = new DatabaseSync(finalPath);
 
     // Configure SQLite WAL mode & pragmas
     try {
@@ -175,11 +185,15 @@ export function getDatabase(config?: DatabaseConfig): LuminaDatabase {
     return dbInstance;
   }
 
+  const defaultPath = process.env.VERCEL
+    ? '/tmp/lumina_umay.sqlite'
+    : path.resolve(process.cwd(), 'data', 'lumina_umay.sqlite');
+
   const dbPath =
     config?.dbPath ||
     process.env.DB_PATH ||
     process.env.DATABASE_PATH ||
-    path.resolve(process.cwd(), 'data', 'lumina_umay.sqlite');
+    defaultPath;
 
   const luminaDb = new LuminaDatabase(dbPath);
 
