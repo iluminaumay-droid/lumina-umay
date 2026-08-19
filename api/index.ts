@@ -10,22 +10,26 @@ let initialized = false;
 async function ensureInitialized() {
   if (!initialized) {
     try {
-      initDatabase();
+      initDatabase({ dbPath: '/tmp/lumina_umay.sqlite' });
       await hydrateFromSupabase(db);
       
       // Auto seed slots if still empty
       const slotCount = (db.prepare(`SELECT count(*) as count FROM slots`).get() as any).count;
       if (slotCount === 0) {
-        seedDefaultSlots();
+        seedDefaultSlots({ dbPath: '/tmp/lumina_umay.sqlite' });
       }
       initialized = true;
     } catch (err) {
-      console.warn('[Vercel Bootstrap Warning]:', err);
+      console.error('[Vercel Bootstrap Warning]:', err);
     }
   }
 }
 
 export default async function handler(req: any, res: any) {
-  await ensureInitialized();
+  try {
+    await ensureInitialized();
+  } catch (initErr) {
+    console.error('[Handler Init Error]:', initErr);
+  }
   return app(req, res);
 }

@@ -134,6 +134,7 @@ export function createApp(): Express {
     return res.status(500).json({
       success: false,
       error: 'Error interno del servidor. Por favor intenta más tarde.',
+      debug: err instanceof Error ? err.message : String(err),
     });
   });
 
