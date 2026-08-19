@@ -3,6 +3,7 @@ import { db } from '../db/database.js';
 import { MercadoPagoService } from '../services/mercadopago.service.js';
 import { SlotService } from '../services/slot.service.js';
 import { EmailService } from '../services/email.service.js';
+import { GoogleCalendarService } from '../services/google-calendar.service.js';
 import { syncOrderToSupabase, syncSlotToSupabase, syncWebhookToSupabase } from '../db/supabase.js';
 import { Order } from '../types/checkout.types.js';
 
@@ -354,6 +355,9 @@ webhookRouter.post('/mercadopago', async (req: Request, res: Response, next: Nex
         const updatedSlot = db.prepare(`SELECT * FROM slots WHERE id = ?`).get(processResult.orderForEmail.slot_id) as any;
         if (updatedSlot) {
           syncSlotToSupabase(updatedSlot).catch(() => {});
+          GoogleCalendarService.createAppointmentEvent(processResult.orderForEmail, updatedSlot).catch((calErr) => {
+            console.warn('[Google Calendar Event Notice]:', calErr.message);
+          });
         }
       }
     }

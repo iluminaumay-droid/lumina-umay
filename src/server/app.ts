@@ -10,6 +10,8 @@ import { slotsRouter } from './routes/slots.routes.js';
 import { checkoutRouter, ordersRouter } from './routes/checkout.routes.js';
 import { webhookRouter } from './routes/webhook.routes.js';
 import { testRouter } from './routes/test.routes.js';
+import { GoogleCalendarService } from './services/google-calendar.service.js';
+import { db } from './db/database.js';
 
 export function createApp(): Express {
   const app = express();
@@ -66,6 +68,35 @@ export function createApp(): Express {
 
   // Mercado Pago Webhook Routes
   app.use('/api/webhooks', webhookRouter);
+
+  // Live iCal Calendar Feed for Claudia
+  app.get('/api/calendar/feed.ics', (_req: Request, res: Response) => {
+    try {
+      const bookedOrders = db.prepare(`
+        SELECT o.*, s.start_time as slot_start, s.end_time as slot_end
+        FROM orders o
+        JOIN slots s ON o.slot_id = s.id
+        WHERE o.status IN ('paid', 'approved', 'PAID', 'APPROVED')
+        ORDER BY s.start_time ASC
+      `).all() as any[];
+
+      const icsEvents = bookedOrders.map((bo) =>
+        GoogleCalendarService.generateIcsContent({
+          summary: `🔮 Sesión de Tarot: ${bo.customer_name}`,
+          description: `Cliente: ${bo.customer_name}\nPregunta: ${bo.question}\nTel: ${bo.customer_phone || 'N/A'}\nOrden: ${bo.id}`,
+          startTime: bo.slot_start,
+          endTime: bo.slot_end,
+          attendeeEmail: bo.customer_email,
+        })
+      ).join('\n');
+
+      res.setHeader('Content-Type', 'text/calendar; charset=utf-8');
+      res.setHeader('Content-Disposition', 'inline; filename="lumina-claudia.ics"');
+      return res.status(200).send(icsEvents || 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Lumina Umay//Tarot//ES\nEND:VCALENDAR');
+    } catch (err: any) {
+      return res.status(500).send('Error generating calendar feed');
+    }
+  });
 
   // Test Support Routes
   app.use('/api/test', testRouter);
