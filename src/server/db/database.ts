@@ -1,4 +1,4 @@
-import Database, { Database as BetterSqlite3Db } from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -17,7 +17,7 @@ export interface RunResult {
 }
 
 export class LuminaDatabase {
-  private db: BetterSqlite3Db;
+  private db: DatabaseSync;
 
   constructor(dbPath: string) {
     if (dbPath !== ':memory:') {
@@ -27,16 +27,16 @@ export class LuminaDatabase {
       }
     }
 
-    this.db = new Database(dbPath);
+    this.db = new DatabaseSync(dbPath);
 
     // Configure SQLite WAL mode & pragmas
     try {
       if (dbPath !== ':memory:') {
-        this.db.pragma('journal_mode = WAL');
+        this.db.exec('PRAGMA journal_mode = WAL;');
       }
-      this.db.pragma('synchronous = NORMAL');
-      this.db.pragma('foreign_keys = ON');
-      this.db.pragma('busy_timeout = 5000');
+      this.db.exec('PRAGMA synchronous = NORMAL;');
+      this.db.exec('PRAGMA foreign_keys = ON;');
+      this.db.exec('PRAGMA busy_timeout = 5000;');
     } catch (err) {
       console.warn('[Database] Pragma configuration notice:', err);
     }
@@ -47,8 +47,18 @@ export class LuminaDatabase {
   }
 
   pragma(pragmaSql: string): any {
-    const trimmed = pragmaSql.trim().replace(/^PRAGMA\s+/i, '').replace(/;$/, '');
-    return this.db.pragma(trimmed);
+    const trimmed = pragmaSql.trim();
+    if (trimmed.includes('=')) {
+      this.db.exec(`PRAGMA ${trimmed};`);
+      return null;
+    } else {
+      try {
+        return this.db.prepare(`PRAGMA ${trimmed}`).all();
+      } catch {
+        this.db.exec(`PRAGMA ${trimmed};`);
+        return null;
+      }
+    }
   }
 
   prepare(sql: string) {
@@ -71,7 +81,21 @@ export class LuminaDatabase {
   }
 
   transaction<T extends (...args: any[]) => any>(fn: T): T {
-    return this.db.transaction(fn) as unknown as T;
+    return ((...args: any[]) => {
+      this.db.exec('BEGIN IMMEDIATE');
+      try {
+        const result = fn(...args);
+        this.db.exec('COMMIT');
+        return result;
+      } catch (error) {
+        try {
+          this.db.exec('ROLLBACK');
+        } catch {
+          // ignore rollback error
+        }
+        throw error;
+      }
+    }) as T;
   }
 
   close(): void {
