@@ -47,9 +47,11 @@ export const createPreferenceSchema = z
     tier_id: z.enum(['1_carta', '3_cartas', '5_cartas', 'llamada', 'call_session'], {
       errorMap: () => ({ message: 'Tipo de lectura o servicio no válido' }),
     }),
-    category: z.enum(['Amor', 'Trabajo/Dinero', 'Familia', 'Otro'], {
-      errorMap: () => ({ message: 'Por favor selecciona una categoría válida (Amor, Trabajo/Dinero, Familia, Otro)' }),
-    }),
+    category: z
+      .enum(['Amor', 'Trabajo/Dinero', 'Familia', 'Otro'], {
+        errorMap: () => ({ message: 'Por favor selecciona una categoría válida (Amor, Trabajo/Dinero, Familia, Otro)' }),
+      })
+      .default('Otro'),
     customer_name: z
       .string({ required_error: 'Nombre del consultante requerido' })
       .trim()

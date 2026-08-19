@@ -440,12 +440,27 @@
                 <input type="date" id="call_customer_birthdate" name="customer_birthdate" class="text-input date-input" required autocomplete="bday">
               </div>
 
+              <!-- Category / Área de Sesión -->
+              <div class="input-field-wrap span-full">
+                <label for="call_category" class="input-label">
+                  Área o Tema de tu Consulta <span class="req-star">*</span>
+                </label>
+                <div class="select-container">
+                  <select id="call_category" name="category" class="select-input" required>
+                    <option value="Amor">Amor y Relaciones</option>
+                    <option value="Trabajo/Dinero">Trabajo, Negocios y Dinero</option>
+                    <option value="Familia">Familia y Hogar</option>
+                    <option value="Otro" selected>Crecimiento Espiritual / Consulta General</option>
+                  </select>
+                </div>
+              </div>
+
               <!-- Topics / Question -->
               <div class="input-field-wrap span-full">
                 <label for="call_question" class="input-label">
-                  Tema Central o Preguntas para la Sesión <span class="req-star">*</span>
+                  Preguntas o Temas Específicos para la Llamada <span class="req-star">*</span>
                 </label>
-                <textarea id="call_question" name="question" class="text-input textarea-input" placeholder="Cuéntanos brevemente las áreas o situaciones que deseas abordar durante tu llamada..." required></textarea>
+                <textarea id="call_question" name="question" class="text-input textarea-input" placeholder="Cuéntanos brevemente los temas o situaciones específicas que deseas profundizar durante tus 45 minutos con Claudia..." required></textarea>
               </div>
 
             </div>

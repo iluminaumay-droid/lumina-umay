@@ -297,6 +297,7 @@ async function handleLlamadaSubmit(event) {
   const email = document.getElementById('call_customer_email')?.value.trim();
   const phone = document.getElementById('call_customer_phone')?.value.trim() || undefined;
   const birthdate = document.getElementById('call_customer_birthdate')?.value;
+  const category = document.getElementById('call_category')?.value || 'Otro';
   const question = document.getElementById('call_question')?.value.trim();
 
   if (!slotId) {
@@ -313,6 +314,7 @@ async function handleLlamadaSubmit(event) {
     tier_id: 'llamada',
     slot_id: slotId,
     lock_token: state.lockToken,
+    category: category,
     customer_name: name,
     customer_email: email,
     customer_phone: phone,
