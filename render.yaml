@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: lumina-umay
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CLAUDIA_NOTIFICATION_EMAIL
+        value: claudiamjw187@gmail.com
+      - key: EMAIL_PROVIDER
+        value: mock
